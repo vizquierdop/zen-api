@@ -16,6 +16,17 @@ namespace ZenApi.Infrastructure.Configurations
             builder.ToTable("Provinces");
 
             builder.HasKey(p => p.Id);
+
+            // Relations
+            builder.HasMany(p => p.Users)
+                .WithOne(u => u.Province)
+                .HasForeignKey(u => u.ProvinceId)
+                .IsRequired();
+
+            builder.HasMany(p => p.Businesses)
+                .WithOne(b => b.Province)
+                .HasForeignKey(b => b.ProvinceId)
+                .IsRequired();
         }
     }
 }

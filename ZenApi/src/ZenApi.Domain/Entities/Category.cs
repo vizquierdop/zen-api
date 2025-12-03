@@ -7,12 +7,11 @@ using ZenApi.Domain.Common;
 
 namespace ZenApi.Domain.Entities
 {
-    public class Province : BaseAuditableEntity
+    public class Category : BaseAuditableEntity
     {
         public required string Name { get; set; }
 
         // Relations
-        public virtual IList<User> Users { get; set; } = new List<User>();
-        public virtual IList<Business> Businesses { get; set; } = new List<Business>();
+        public virtual IList<BusinessCategory> BusinessCategories { get; set; } = new List<BusinessCategory>();
     }
 }

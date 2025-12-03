@@ -17,6 +17,7 @@ namespace ZenApi.Domain.Entities
         public string? Keyword1 { get; set; }
         public string? Keyword2 { get; set; }
         public string? Keyword3 { get; set; }
+        public required string Phone { get; set; }
         public int SimultaneousBookings { get; set; }
         public bool? IsActive { get; set; }
         public string? InstagramUser { get; set; }
@@ -24,8 +25,14 @@ namespace ZenApi.Domain.Entities
         public string? TikTokUser { get; set; }
         public string? FacebookUser { get; set; }
         public string? GoogleMaps { get; set; }
+        public int UserId { get; set; }
 
         // Relations
         public required Province Province { get; set; }
+        public required User User { get; set; }
+        public virtual IList<Availability> Availabilities { get; set; } = new List<Availability>();
+        public virtual IList<OfferedService> OfferedServices { get; set; } = new List<OfferedService>();
+        public virtual IList<Holiday> Holidays { get; set; } = new List<Holiday>();
+        public virtual IList<BusinessCategory> BusinessCategories{ get; set; } = new List<BusinessCategory>();
     }
 }

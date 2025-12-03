@@ -12,8 +12,15 @@ public class ApplicationDbContext : DbContext
     }
 
     public DbSet<User> Users => Set<User>();
-    public DbSet<Province> Province => Set<Province>();
-    public DbSet<Business> Business => Set<Business>();
+    public DbSet<Province> Provinces => Set<Province>();
+    public DbSet<Business> Businesses => Set<Business>();
+    public DbSet<Availability> Availabilities => Set<Availability>();
+    public DbSet<Category> Categories => Set<Category>();
+    public DbSet<Holiday> Holidays => Set<Holiday>();
+    public DbSet<OfferedService> OfferedServices => Set<OfferedService>();
+    public DbSet<Reservation> Reservations => Set<Reservation>();
+
+    public DbSet<BusinessCategory> BusinessCategories => Set<BusinessCategory>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

@@ -11,6 +11,6 @@ namespace ZenApi.Application.Dtos.Categories
     public class CategoryDto : IMapFrom<Category>
     {
         public required int Id { get; set; }
-        public required string Name { get; set; }
+        public string? Name { get; set; }
     }
 }

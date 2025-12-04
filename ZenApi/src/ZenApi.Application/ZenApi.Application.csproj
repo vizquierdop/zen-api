@@ -3,6 +3,9 @@
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="16.0.0" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
+    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="12.1.1" />
+    <PackageReference Include="MediatR" Version="14.0.0" />
+    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="11.1.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -11,6 +14,22 @@
 
   <ItemGroup>
     <Folder Include="Common\Models\" />
+    <Folder Include="Models\Availabilities\Commands\" />
+    <Folder Include="Models\Availabilities\Queries\" />
+    <Folder Include="Models\Businesses\Commands\" />
+    <Folder Include="Models\Businesses\Queries\" />
+    <Folder Include="Models\Categories\Commands\" />
+    <Folder Include="Models\Categories\Queries\" />
+    <Folder Include="Models\Holidays\Commands\" />
+    <Folder Include="Models\Holidays\Queries\" />
+    <Folder Include="Models\OfferedServices\Commands\" />
+    <Folder Include="Models\OfferedServices\Queries\" />
+    <Folder Include="Models\Provinces\Commands\" />
+    <Folder Include="Models\Provinces\Queries\" />
+    <Folder Include="Models\Reservations\Commands\" />
+    <Folder Include="Models\Reservations\Queries\" />
+    <Folder Include="Models\Users\Commands\" />
+    <Folder Include="Models\Users\Queries\" />
   </ItemGroup>
 
   <PropertyGroup>

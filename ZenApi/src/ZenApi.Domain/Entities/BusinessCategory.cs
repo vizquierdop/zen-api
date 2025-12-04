@@ -9,11 +9,11 @@ namespace ZenApi.Domain.Entities
 {
     public class BusinessCategory : BaseAuditableEntity
     {
-        public required int BusinessId { get; set; }
-        public required int CategoryId { get; set; }
+        public int BusinessId { get; set; }
+        public int CategoryId { get; set; }
         
         // Relations
-        public required Business Business { get; set; }
-        public required Category Category{ get; set; }
+        public Business Business { get; set; }
+        public Category Category { get; set; }
     }
 }

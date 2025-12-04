@@ -14,6 +14,6 @@ namespace ZenApi.Domain.Entities
         
         // Relations
         public required int BusinessId { get; set; }
-        public required Business Business { get; set; }
+        public Business? Business { get; set; }
     }
 }

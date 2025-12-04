@@ -8,8 +8,8 @@ namespace ZenApi.Domain.Enums
 {
     public enum UserRole
     {
-        Customer,
-        Business,
-        Admin
+        Customer = 0,
+        Business = 1,
+        Admin = 2,
     }
 }

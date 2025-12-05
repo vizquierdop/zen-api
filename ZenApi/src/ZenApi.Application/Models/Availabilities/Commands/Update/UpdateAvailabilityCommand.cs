@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +11,7 @@ using ZenApi.Domain.Entities;
 
 namespace ZenApi.Application.Models.Availabilities.Commands.Update
 {
-    public class UpdateAvailabilityCommand : IRequest, IMapTo<Availability>
+    public record UpdateAvailabilityCommand : IRequest, IMapTo<Availability>
     {
         public required int Id { get; init; }
         public required bool IsActive { get; init; }

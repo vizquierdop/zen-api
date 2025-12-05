@@ -11,7 +11,7 @@ using ZenApi.Domain.Entities;
 
 namespace ZenApi.Application.Models.Holidays.Commands.Create
 {
-    public class CreateHolidayCommand : IRequest<int>, IMapTo<Holiday>
+    public record CreateHolidayCommand : IRequest<int>, IMapTo<Holiday>
     {
         public required DateTime StartDate { get; init; }
         public required DateTime EndDate { get; init; }

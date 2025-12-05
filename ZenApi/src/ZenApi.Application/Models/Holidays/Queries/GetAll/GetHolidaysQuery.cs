@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ZenApi.Application.Common.Interfaces;
+using ZenApi.Application.Common.Interfaces.Repositories;
 using ZenApi.Application.Common.Models;
 using ZenApi.Application.Common.Models.SearchModels;
 using ZenApi.Application.Dtos.Holidays;
@@ -15,9 +15,9 @@ namespace ZenApi.Application.Models.Holidays.Queries.GetAll
 
     public class GetHolidaysQueryHandler : IRequestHandler<GetHolidaysQuery, PaginatedList<HolidayDto>>
     {
-        private readonly IHolidayRepository _repository;
+        private readonly IHolidayQueryRepository _repository;
 
-        public GetHolidaysQueryHandler(IHolidayRepository repository)
+        public GetHolidaysQueryHandler(IHolidayQueryRepository repository)
         {
             _repository = repository;
         }

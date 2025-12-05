@@ -6,40 +6,40 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ZenApi.Application.Common.Interfaces;
+using ZenApi.Application.Common.Interfaces.Repositories;
 using ZenApi.Application.Common.Models;
 using ZenApi.Application.Common.Models.SearchModels;
-using ZenApi.Application.Dtos.Provinces;
+using ZenApi.Application.Dtos.Holidays;
 using ZenApi.Application.Extensions;
 using ZenApi.Infrastructure.Persistence;
 
 namespace ZenApi.Infrastructure.Repositories
 {
-    public class ProvinceRepository : IProvinceRepository
+    public class HolidayQueryRepository : IHolidayQueryRepository
     {
         private readonly ApplicationDbContext _context;
         private readonly IConfigurationProvider _mapper;
 
-        public ProvinceRepository(ApplicationDbContext context, IConfigurationProvider mapper)
+        public HolidayQueryRepository(ApplicationDbContext context, IConfigurationProvider mapper)
         {
             _context = context;
             _mapper = mapper;
         }
-        public async Task<PaginatedList<ProvinceDto>> SearchPagedAsync(ProvinceSearchModel search, CancellationToken cancellationToken)
+
+        public async Task<PaginatedList<HolidayDto>> GetAllAsync(HolidaySearchModel search, CancellationToken cancellationToken)
         {
-            var query = _context.Provinces
+            var query = _context.Holidays
                 .AsNoTracking()
                 .AsQueryable();
 
-            query = Application.Models.Provinces.Queries.GetAll.ProvinceQueryFilters.CreateFilters(query, search);
+            query = Application.Models.Holidays.Queries.GetAll.HolidayQueryFilters.CreateFilters(query, search);
 
-            var orderBy = string.IsNullOrEmpty(search.OrderBy) ? "Name" : search.OrderBy;
+            var orderBy = string.IsNullOrEmpty(search.OrderBy) ? "StartDate" : search.OrderBy;
 
             if (search.OrderDirection == DtOrderDir.Desc)
             {
                 query = query.OrderByDescending(e => EF.Property<object>(e, orderBy));
-            }
-            else
+            } else
             {
                 query = query.OrderBy(e => EF.Property<object>(e, orderBy));
             }
@@ -49,10 +49,10 @@ namespace ZenApi.Infrastructure.Repositories
             var items = await query
                 .Skip((search.PaginationSkip.GetValueOrDefault(1) - 1) * search.PaginationLength.GetValueOrDefault(10))
                 .Take(search.PaginationLength.GetValueOrDefault(10))
-                .ProjectTo<ProvinceDto>(_mapper)
+                .ProjectTo<HolidayDto>(_mapper)
                 .ToListAsync();
 
-            return new PaginatedList<ProvinceDto>(items, count, search.PaginationSkip.GetValueOrDefault(1), search.PaginationLength.GetValueOrDefault(10));
+            return new PaginatedList<HolidayDto>(items, count, search.PaginationSkip.GetValueOrDefault(1), search.PaginationLength.GetValueOrDefault(10));
         }
     }
 }

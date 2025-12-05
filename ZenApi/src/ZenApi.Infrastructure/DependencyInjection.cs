@@ -18,10 +18,12 @@ namespace ZenApi.Infrastructure
             services.AddScoped<ISecurityService, SecurityService>();
 
             // Repositories
-            services.AddScoped<ICategoryRepository, CategoryRepository>();
-            services.AddScoped<IProvinceRepository, ProvinceRepository>();
-            services.AddScoped<IHolidayRepository, HolidayRepository>();
+            services.AddScoped<ICategoryQueryRepository, CategoryQueryRepository>();
+            services.AddScoped<IProvinceQueryRepository, ProvinceQueryRepository>();
+            services.AddScoped<IHolidayQueryRepository, HolidayQueryRepository>();
+            services.AddScoped<IHolidayCommandRepository, HolidayCommandRepository>();
             services.AddScoped<IAvailabilityQueryRepository, AvailabilityQueryRepository>();
+            services.AddScoped<IAvailabilityCommandRepository, AvailabilityCommandRepository>();
             services.AddScoped<IOfferedServiceCommandRepository, OfferedServiceCommandRepository>();
             services.AddScoped<IOfferedServiceQueryRepository, OfferedServiceQueryRepository>();
 

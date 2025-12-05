@@ -7,10 +7,10 @@ using ZenApi.Application.Common.Models;
 using ZenApi.Application.Common.Models.SearchModels;
 using ZenApi.Application.Dtos.Provinces;
 
-namespace ZenApi.Application.Common.Interfaces
+namespace ZenApi.Application.Common.Interfaces.Repositories
 {
-    public interface IProvinceRepository
+    public interface IProvinceQueryRepository
     {
-        Task<PaginatedList<ProvinceDto>> SearchPagedAsync(ProvinceSearchModel search, CancellationToken cancellationToken);
+        Task<PaginatedList<ProvinceDto>> GetAllAsync(ProvinceSearchModel search, CancellationToken cancellationToken);
     }
 }

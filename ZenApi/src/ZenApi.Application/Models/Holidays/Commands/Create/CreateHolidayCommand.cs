@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ZenApi.Application.Common.Interfaces;
+using ZenApi.Application.Common.Interfaces.Repositories;
 using ZenApi.Application.Common.Mappings;
 using ZenApi.Domain.Entities;
 
@@ -19,12 +20,12 @@ namespace ZenApi.Application.Models.Holidays.Commands.Create
 
         public class CreateHolidayCommandHandler : IRequestHandler<CreateHolidayCommand, int>
         {
-            private readonly IApplicationDbContext _context;
+            private readonly IHolidayCommandRepository _repository;
             private readonly IMapper _mapper;
 
-            public CreateHolidayCommandHandler(IApplicationDbContext context, IMapper mapper)
+            public CreateHolidayCommandHandler(IHolidayCommandRepository repository, IMapper mapper)
             {
-                _context = context;
+                _repository = repository;
                 _mapper = mapper;
             }
 
@@ -32,11 +33,13 @@ namespace ZenApi.Application.Models.Holidays.Commands.Create
             {
                 var entity = _mapper.Map<Holiday>(request);
 
-                await _context.Holidays.AddAsync(entity);
+                return await _repository.CreateAsync(entity, cancellationToken);
 
-                await _context.SaveChangesAsync(cancellationToken);
+                //await _context.Holidays.AddAsync(entity);
 
-                return entity.Id;
+                //await _context.SaveChangesAsync(cancellationToken);
+
+                //return entity.Id;
             }
         }
 

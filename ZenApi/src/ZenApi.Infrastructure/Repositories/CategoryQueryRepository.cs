@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ZenApi.Application.Common.Interfaces;
+using ZenApi.Application.Common.Interfaces.Repositories;
 using ZenApi.Application.Common.Models;
 using ZenApi.Application.Common.Models.SearchModels;
 using ZenApi.Application.Dtos.Categories;
@@ -15,18 +15,18 @@ using ZenApi.Infrastructure.Persistence;
 
 namespace ZenApi.Infrastructure.Repositories
 {
-    public class CategoryRepository : ICategoryRepository
+    public class CategoryQueryRepository : ICategoryQueryRepository
     {
         private readonly ApplicationDbContext _context;
         private readonly IConfigurationProvider _mapper;
 
-        public CategoryRepository(ApplicationDbContext context, IMapper mapper)
+        public CategoryQueryRepository(ApplicationDbContext context, IMapper mapper)
         {
             _context = context;
             _mapper = mapper.ConfigurationProvider;
         }
 
-        public async Task<PaginatedList<CategoryDto>> SearchPagedAsync(CategorySearchModel search, CancellationToken cancellationToken)
+        public async Task<PaginatedList<CategoryDto>> GetAllAsync(CategorySearchModel search, CancellationToken cancellationToken)
         {
             var query = _context.Categories
                 .AsNoTracking()

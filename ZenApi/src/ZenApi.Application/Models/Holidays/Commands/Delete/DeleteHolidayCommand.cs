@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ZenApi.Application.Common.Interfaces;
+using ZenApi.Application.Common.Interfaces.Repositories;
 using ZenApi.Application.Common.Mappings;
 using ZenApi.Domain.Entities;
 
@@ -15,24 +16,25 @@ namespace ZenApi.Application.Models.Holidays.Commands.Delete
 
     public class DeleteHolidayCommandHandler : IRequestHandler<DeleteHolidayCommand>
     {
-        private readonly IApplicationDbContext _context;
+        private readonly IHolidayCommandRepository _repository;
 
-        public DeleteHolidayCommandHandler(IApplicationDbContext context)
+        public DeleteHolidayCommandHandler(IHolidayCommandRepository repository)
         {
-            _context = context;
+            _repository = repository;
         }
 
         public async Task Handle(DeleteHolidayCommand request, CancellationToken cancellationToken)
         {
-            var entity = await _context.Holidays
-                .FindAsync(request.Id, cancellationToken);
+            await _repository.DeleteAsync(request.Id, cancellationToken);
+            //var entity = await _context.Holidays
+            //    .FindAsync(request.Id, cancellationToken);
 
-            if (entity is null)
-                throw new Exception("Holiday not found");
+            //if (entity is null)
+            //    throw new Exception("Holiday not found");
 
-            _context.Holidays.Remove(entity);
+            //_context.Holidays.Remove(entity);
 
-            await _context.SaveChangesAsync(cancellationToken);
+            //await _context.SaveChangesAsync(cancellationToken);
         }
     }
 }

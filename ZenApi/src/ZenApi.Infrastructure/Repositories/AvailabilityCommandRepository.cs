@@ -14,12 +14,10 @@ namespace ZenApi.Infrastructure.Repositories
     public class AvailabilityCommandRepository : IAvailabilityCommandRepository
     {
         private readonly ApplicationDbContext _context;
-        private readonly IConfigurationProvider _mapper;
 
         public AvailabilityCommandRepository(ApplicationDbContext context, IConfigurationProvider mapper)
         {
             _context = context;
-            _mapper = mapper;
         }
 
         public async Task<Availability?> GetByIdAsync(int id, CancellationToken cancellationToken)

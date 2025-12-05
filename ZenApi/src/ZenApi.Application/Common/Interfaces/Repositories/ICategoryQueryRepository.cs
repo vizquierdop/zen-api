@@ -7,10 +7,10 @@ using ZenApi.Application.Common.Models;
 using ZenApi.Application.Common.Models.SearchModels;
 using ZenApi.Application.Dtos.Categories;
 
-namespace ZenApi.Application.Common.Interfaces
+namespace ZenApi.Application.Common.Interfaces.Repositories
 {
-    public interface ICategoryRepository
+    public interface ICategoryQueryRepository
     {
-        Task<PaginatedList<CategoryDto>> SearchPagedAsync(CategorySearchModel search, CancellationToken cancellationToken);
+        Task<PaginatedList<CategoryDto>> GetAllAsync(CategorySearchModel search, CancellationToken cancellationToken);
     }
 }

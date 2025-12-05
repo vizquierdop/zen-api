@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ZenApi.Application.Common.Interfaces;
+using ZenApi.Application.Common.Interfaces.Repositories;
 
 namespace ZenApi.Application.Models.OfferedServices.Commands.Delete
 {
@@ -12,24 +12,16 @@ namespace ZenApi.Application.Models.OfferedServices.Commands.Delete
 
     public class DeleteOfferedServiceCommandHandler : IRequestHandler<DeleteOfferedServiceCommand>
     {
-        private readonly IApplicationDbContext _context;
+        private readonly IOfferedServiceCommandRepository _repository;
 
-        public DeleteOfferedServiceCommandHandler(IApplicationDbContext context)
+        public DeleteOfferedServiceCommandHandler(IOfferedServiceCommandRepository repository)
         {
-            _context = context;
+            _repository = repository;
         }
 
         public async Task Handle(DeleteOfferedServiceCommand request, CancellationToken cancellationToken)
         {
-            var entity = await _context.OfferedServices
-                .FindAsync(request.Id, cancellationToken);
-
-            if (entity is null)
-                throw new Exception("Offered Service not found");
-
-            _context.OfferedServices.Remove(entity);
-
-            await _context.SaveChangesAsync(cancellationToken);
+            await _repository.DeleteAsync(request.Id, cancellationToken);
         }
     }
 }

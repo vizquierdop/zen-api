@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ZenApi.Application.Common.Interfaces;
+using ZenApi.Application.Common.Interfaces.Repositories;
 using ZenApi.Application.Common.Mappings;
 using ZenApi.Domain.Entities;
 
@@ -23,33 +24,36 @@ namespace ZenApi.Application.Models.Availabilities.Commands.Update
 
     public class UpdateAvailabilityCommandHandler : IRequestHandler<UpdateAvailabilityCommand>
     {
-        private readonly IApplicationDbContext _context;
+        private readonly IAvailabilityCommandRepository _repository;
         private readonly IMapper _mapper;
 
-        public UpdateAvailabilityCommandHandler(IApplicationDbContext context, IMapper mapper)
+        public UpdateAvailabilityCommandHandler(IAvailabilityCommandRepository repository, IMapper mapper)
         {
-            _context = context;
+            _repository = repository;
             _mapper = mapper;
         }
 
         public async Task Handle(UpdateAvailabilityCommand request, CancellationToken cancellationToken)
         {
-            var entity = await _context.Availabilities
-                .FindAsync(request.Id, cancellationToken);
-
-            if (entity is null)
+            var entity = await _repository.GetByIdAsync(request.Id, cancellationToken);
+            if (entity == null)
+            {
                 throw new Exception("Availability not found");
-
-            //availability.IsActive = request.IsActive;
-
-            //availability.Slot1Start = request.Slot1Start;
-            //availability.Slot1End = request.Slot1End;
-            //availability.Slot2Start = request.Slot2Start;
-            //availability.Slot2End = request.Slot2End;
-
+            }
+            
             _mapper.Map(request, entity);
 
-            await _context.SaveChangesAsync(cancellationToken);
+            await _repository.UpdateAsync(entity, cancellationToken);
+
+            //var entity = await _context.Availabilities
+            //    .FindAsync(request.Id, cancellationToken);
+
+            //if (entity is null)
+            //    throw new Exception("Availability not found");
+
+            //_mapper.Map(request, entity);
+
+            //await _context.SaveChangesAsync(cancellationToken);
         }
     }
 }

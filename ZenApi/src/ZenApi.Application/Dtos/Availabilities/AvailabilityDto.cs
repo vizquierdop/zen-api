@@ -19,6 +19,5 @@ namespace ZenApi.Application.Dtos.Availabilities
         public string? Slot2End { get; set; }
         public bool IsActive { get; set; }
         public required int BusinessId { get; set; }
-        public required BusinessShortDto Business { get; set; }
     }
 }

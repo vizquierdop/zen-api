@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ZenApi.Application.Common.Interfaces;
+using ZenApi.Application.Common.Interfaces.Repositories;
 using ZenApi.Application.Common.Mappings;
 using ZenApi.Domain.Entities;
 using ZenApi.Domain.Enums;
@@ -28,12 +29,12 @@ namespace ZenApi.Application.Models.Reservations.Commands.Create
 
     public class CreateReservationCommandHandler : IRequestHandler<CreateReservationCommand, int>
     {
-        private readonly IApplicationDbContext _context;
+        private readonly IReservationCommandRepository _repository;
         private readonly IMapper _mapper;
 
-        public CreateReservationCommandHandler(IApplicationDbContext context, IMapper mapper)
+        public CreateReservationCommandHandler(IReservationCommandRepository repository, IMapper mapper)
         {
-            _context = context;
+            _repository = repository;
             _mapper = mapper;
         }
 
@@ -43,11 +44,7 @@ namespace ZenApi.Application.Models.Reservations.Commands.Create
 
             entity.Status = ReservationStatus.Pending;
 
-            await _context.Reservations.AddAsync(entity);
-
-            await _context.SaveChangesAsync(cancellationToken);
-
-            return entity.Id;
+            return await _repository.CreateAsync(entity, cancellationToken);
         }
     }
 }

@@ -26,6 +26,7 @@ namespace ZenApi.Infrastructure
             services.AddScoped<IAvailabilityCommandRepository, AvailabilityCommandRepository>();
             services.AddScoped<IOfferedServiceCommandRepository, OfferedServiceCommandRepository>();
             services.AddScoped<IOfferedServiceQueryRepository, OfferedServiceQueryRepository>();
+            services.AddScoped<IReservationCommandRepository, ReservationCommandRepository>();
 
             return services;
         }

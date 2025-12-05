@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ZenApi.Application.Common.Interfaces;
+using ZenApi.Application.Common.Interfaces.Repositories;
 using ZenApi.Application.Common.Mappings;
 using ZenApi.Domain.Entities;
 
@@ -25,26 +26,25 @@ namespace ZenApi.Application.Models.Reservations.Commands.Update
 
     public class UpdateReservationCommandHandler : IRequestHandler<UpdateReservationCommand>
     {
-        private readonly IApplicationDbContext _context;
+        private readonly IReservationCommandRepository _repository;
         private readonly IMapper _mapper;
 
-        public UpdateReservationCommandHandler(IApplicationDbContext context, IMapper mapper)
+        public UpdateReservationCommandHandler(IReservationCommandRepository repository, IMapper mapper)
         {
-            _context = context;
+            _repository = repository;
             _mapper = mapper;
         }
 
         public async Task Handle(UpdateReservationCommand request, CancellationToken cancellationToken)
         {
-            var entity = await _context.Reservations
-                .FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
+            var entity = await _repository.GetByIdAsync(request.Id, cancellationToken);
 
             if (entity is null)
                 throw new Exception("Reservation not found");
 
             _mapper.Map(request, entity);
 
-            await _context.SaveChangesAsync(cancellationToken);
+            await _repository.UpdateAsync(entity, cancellationToken);
         }
     }
 }

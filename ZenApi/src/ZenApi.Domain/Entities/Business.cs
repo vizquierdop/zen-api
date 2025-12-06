@@ -28,8 +28,8 @@ namespace ZenApi.Domain.Entities
         public int UserId { get; set; }
 
         // Relations
-        public required Province Province { get; set; }
-        public required User User { get; set; }
+        public Province Province { get; set; } = null!;
+        public User User { get; set; } = null!;
         public virtual IList<Availability> Availabilities { get; set; } = new List<Availability>();
         public virtual IList<OfferedService> OfferedServices { get; set; } = new List<OfferedService>();
         public virtual IList<Holiday> Holidays { get; set; } = new List<Holiday>();

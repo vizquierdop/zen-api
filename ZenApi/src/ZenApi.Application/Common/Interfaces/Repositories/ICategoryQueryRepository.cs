@@ -12,5 +12,6 @@ namespace ZenApi.Application.Common.Interfaces.Repositories
     public interface ICategoryQueryRepository
     {
         Task<PaginatedList<CategoryDto>> GetAllAsync(CategorySearchModel search, CancellationToken cancellationToken);
+        Task<List<int>> GetValidIdsAsync(IEnumerable<int> categoryIds, CancellationToken cancellationToken);
     }
 }

@@ -44,7 +44,7 @@ namespace ZenApi.Infrastructure.Repositories
             // TODO Check this is ok
             return await _context.Reservations
                 .Include(x => x.Service)
-                .Include(x => x.Service.Business)
+                .ThenInclude(s => s.Business)
                 .FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
         }
 

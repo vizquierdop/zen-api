@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ZenApi.Application.Models.Business.Commands.Update;
 
 namespace ZenApi.Application.Models.Businesses.Commands.Update
 {

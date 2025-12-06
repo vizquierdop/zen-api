@@ -9,33 +9,33 @@ using System.Threading.Tasks;
 using ZenApi.Application.Common.Interfaces.Repositories;
 using ZenApi.Application.Common.Models;
 using ZenApi.Application.Common.Models.SearchModels;
-using ZenApi.Application.Dtos.Reservations;
+using ZenApi.Application.Dtos.Businesses;
 using ZenApi.Application.Extensions;
-using ZenApi.Application.Models.Reservations.Queries.GetAll;
+using ZenApi.Application.Models.Businesses.Queries.GetAll;
 using ZenApi.Infrastructure.Persistence;
 
 namespace ZenApi.Infrastructure.Repositories
 {
-    public class ReservationQueryRepository : IReservationQueryRepository
+    public class BusinessQueryRepository : IBusinessQueryCommand
     {
         private readonly ApplicationDbContext _context;
         private readonly IConfigurationProvider _mapper;
 
-        public ReservationQueryRepository(ApplicationDbContext context, IConfigurationProvider mapper)
+        public BusinessQueryRepository(ApplicationDbContext context, IConfigurationProvider mapper)
         {
             _context = context;
             _mapper = mapper;
         }
 
-        public async Task<PaginatedList<ReservationDto>> GetAllAsync(ReservationSearchModel search, CancellationToken cancellationToken)
+        public async Task<PaginatedList<BusinessDto>> GetAllAsync(BusinessSearchModel search, CancellationToken cancellationToken)
         {
-            var query = _context.Reservations
+            var query = _context.Businesses
                 .AsNoTracking()
                 .AsQueryable();
 
-            query = ReservationQueryFilters.CreateFilters(query, search);
+            query = BusinessQueryFilters.CreateFilters(query, search);
 
-            var orderBy = string.IsNullOrEmpty(search.OrderBy) ? "StartDate" : search.OrderBy;
+            var orderBy = string.IsNullOrEmpty(search.OrderBy) ? "Name" : search.OrderBy;
 
             if (search.OrderDirection == DtOrderDir.Desc)
             {
@@ -49,22 +49,20 @@ namespace ZenApi.Infrastructure.Repositories
             var count = await query.CountAsync(cancellationToken);
 
             var items = await query
-                .Include(x => x.Service)
                 .Skip((search.PaginationSkip.GetValueOrDefault(1) - 1) * search.PaginationLength.GetValueOrDefault(10))
                 .Take(search.PaginationLength.GetValueOrDefault(10))
-                .ProjectTo<ReservationDto>(_mapper)
+                .ProjectTo<BusinessDto>(_mapper)
                 .ToListAsync(cancellationToken);
 
-            return new PaginatedList<ReservationDto>(items, count, search.PaginationSkip.GetValueOrDefault(1), search.PaginationLength.GetValueOrDefault(10));
+            return new PaginatedList<BusinessDto>(items, count, search.PaginationSkip.GetValueOrDefault(1), search.PaginationLength.GetValueOrDefault(10));
         }
 
-        public async Task<ReservationDto?> GetByIdAsync(int id, CancellationToken cancellationToken)
+        public async Task<BusinessDto?> GetByIdAsync(int id, CancellationToken cancellationToken)
         {
-            return await _context.Reservations
+            return await _context.Businesses
                 .AsNoTracking()
-                .Include(x => x.Service)
                 .Where(x => x.Id == id)
-                .ProjectTo<ReservationDto>(_mapper)
+                .ProjectTo<BusinessDto>(_mapper)
                 .FirstOrDefaultAsync(cancellationToken);
         }
     }

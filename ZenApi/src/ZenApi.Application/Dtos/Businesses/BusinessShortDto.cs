@@ -11,6 +11,7 @@ namespace ZenApi.Application.Dtos.Businesses
     public class BusinessShortDto : IMapFrom<Business>
     {
         public required int Id { get; set; }
-        public required int Name { get; set; }
+        public required string Name { get; set; }
+        public string? Address { get; set; }
     }
 }

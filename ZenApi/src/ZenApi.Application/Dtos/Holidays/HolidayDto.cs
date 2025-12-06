@@ -15,6 +15,5 @@ namespace ZenApi.Application.Dtos.Holidays
         public required DateTime StartDate { get; set; }
         public required DateTime EndDate { get; set; }
         public required int BusinessId { get; set; }
-        public required BusinessShortDto Business {  get; set; }
     }
 }

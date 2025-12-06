@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ZenApi.Application.Common.Interfaces;
+using ZenApi.Application.Common.Interfaces.Repositories;
 using ZenApi.Application.Common.Mappings;
 using ZenApi.Application.Dtos.Businesses;
 using ZenApi.Domain.Entities;
@@ -30,14 +31,17 @@ namespace ZenApi.Application.Models.Users.Commands.Create
 
     public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, int>
     {
-        private readonly IApplicationDbContext _context;
-        private readonly IMapper _mapper;
+        private readonly IUserCommandRepository _users;
+        private readonly ICategoryQueryRepository _categories;
         private readonly ISecurityService _securityService;
 
-        public CreateUserCommandHandler(IApplicationDbContext context, IMapper mapper, ISecurityService securityService)
+        public CreateUserCommandHandler(
+            IUserCommandRepository users,
+            ICategoryQueryRepository categories,
+            ISecurityService securityService)
         {
-            _context = context;
-            _mapper = mapper;
+            _users = users;
+            _categories = categories;
             _securityService = securityService;
         }
 
@@ -45,68 +49,52 @@ namespace ZenApi.Application.Models.Users.Commands.Create
         {
             var hashedPassword = _securityService.HashPassword(request.Password);
 
-            var user = _mapper.Map<User>(request);
-            user.Password = hashedPassword;
-
-            _context.Users.Add(user);
-            await _context.SaveChangesAsync(cancellationToken);
-
-            if (request.Role == UserRole.Business && request.Business is not null)
+            var user = new User
             {
-                var business = _mapper.Map<Business>(request.Business);
+                Email = request.Email,
+                Password = hashedPassword,
+                FirstName = request.FirstName,
+                LastName = request.LastName,
+                Phone = request.Phone,
+                IsActive = request.Active,
+                Role = request.Role,
+                ProvinceId = request.ProvinceId
+            };
 
-                business.UserId = user.Id;
-                business.ProvinceId = request.ProvinceId;
-                business.IsActive = true;
-                business.SimultaneousBookings = 1;
-                business.Name = request.Business.Name;
-                business.Keyword1 = request.Business.Keyword1;
-                business.Keyword2 = request.Business.Keyword2;
-                business.Keyword3 = request.Business.Keyword3;
-
-                business.BusinessCategories ??= new List<BusinessCategory>();
-                business.Availabilities ??= new List<Availability>();
-
-                if (request.Business.CategoryIds != null && request.Business.CategoryIds.Length > 0)
-                {
-                    var validCategoryIds = await _context.Categories
-                        .Where(c => request.Business.CategoryIds.Contains(c.Id))
-                        .Select(c => c.Id)
-                        .ToListAsync(cancellationToken);
-
-                    if (validCategoryIds.Count != request.Business.CategoryIds.Length)
-                        throw new Exception("Some provided categories do not exist.");
-
-                    foreach (var categoryId in validCategoryIds)
-                    {
-                        business.BusinessCategories.Add(new BusinessCategory
-                        {
-                            CategoryId = categoryId
-                        });
-                    }
-                }
-
-                _context.Businesses.Add(business);
-
-                for (int day = 0; day <= 6; day++)
-                {
-                    business.Availabilities.Add(new Availability
-                    {
-                        DayOfWeek = day,
-                        IsActive = false,
-                        BusinessId = business.Id
-                    });
-                }
-
-                await _context.SaveChangesAsync(cancellationToken);
-
-
-                user.BusinessId = business.Id;
-
-                await _context.SaveChangesAsync(cancellationToken);
+            if (request.Role != UserRole.Business || request.Business is null)
+            {
+                return await _users.CreateAsync(user, cancellationToken);
             }
 
-            return user.Id;
+            var businessDto = request.Business;
+
+            var business = new Domain.Entities.Business
+            {
+                Name = businessDto.Name,
+                Address = businessDto.Address ?? "",
+                ProvinceId = request.ProvinceId,
+                Keyword1 = businessDto.Keyword1,
+                Keyword2 = businessDto.Keyword2,
+                Keyword3 = businessDto.Keyword3,
+                Phone = request.Phone ?? "",
+                IsActive = true,
+                SimultaneousBookings = businessDto.SimultaneousBookings > 0
+                    ? businessDto.SimultaneousBookings
+                    : 1
+            };
+
+            if (businessDto.CategoryIds?.Length > 0)
+            {
+                var validIds = await _categories.GetValidIdsAsync(businessDto.CategoryIds, cancellationToken);
+
+                business.BusinessCategories = validIds
+                    .Select(id => new BusinessCategory { CategoryId = id })
+                    .ToList();
+            }
+
+            var newUserId = await _users.CreateUserWithBusinessAsync(user, business, cancellationToken);
+
+            return newUserId;
         }
     }
 }

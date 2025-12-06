@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ZenApi.Application.Common.Mappings;
+using ZenApi.Application.Dtos.OfferedServices;
+using ZenApi.Application.Dtos.Users;
 using ZenApi.Domain.Entities;
 using ZenApi.Domain.Enums;
 
@@ -22,8 +24,8 @@ namespace ZenApi.Application.Dtos.Reservations
 
         // Relations
         public required int ServiceId { get; set; }
-        public required OfferedService Service { get; set; }
+        public required OfferedServiceDto Service { get; set; }
         public int? UserId { get; set; }
-        public User? User { get; set; }
+        public UserShortDto? User { get; set; }
     }
 }

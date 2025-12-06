@@ -20,7 +20,7 @@ namespace ZenApi.Domain.Entities
 
         // Relations
         public required int ProvinceId { get; set; }
-        public required Province Province { get; set; }
+        public Province Province { get; set; } = null!;
 
         public virtual IList<Reservation> Reservations { get; set; } = new List<Reservation>();
 

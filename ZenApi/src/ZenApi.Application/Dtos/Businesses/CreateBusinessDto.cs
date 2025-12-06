@@ -12,6 +12,7 @@ namespace ZenApi.Application.Dtos.Businesses
     public class CreateBusinessDto : IMapFrom<Business>
     {
         public required string Name { get; set; }
+        public string Address { get; set; } = null!;
         public required string Keyword1 { get; set; }
         public required string Keyword2 { get; set; }
         public required string Keyword3 { get; set; }

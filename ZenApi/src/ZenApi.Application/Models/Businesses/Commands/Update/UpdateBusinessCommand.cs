@@ -2,7 +2,7 @@ using MediatR;
 using ZenApi.Application.Common.Interfaces;
 using ZenApi.Application.Common.Mappings;
 
-namespace ZenApi.Application.Models.Business.Commands.Update
+namespace ZenApi.Application.Models.Businesses.Commands.Update
 {
     public record UpdateBusinessCommand : IRequest
     {

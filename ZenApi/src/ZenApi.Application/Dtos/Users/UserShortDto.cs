@@ -11,12 +11,12 @@ namespace ZenApi.Application.Dtos.Users
 {
     public class UserShortDto : IMapFrom<User>
     {
-        public required int Id { get; set; }
-        public required string Email { get; set; }
-        public required string FirstName { get; set; }
-        public required string LastName { get; set; }
-        public required string Phone { get; set; }
-        public required UserRole Role { get; set; }
+        public int Id { get; set; }
+        public string? Email { get; set; }
+        public string FirstName { get; set; } = default!;
+        public string? LastName { get; set; }
+        public string? Phone { get; set; }
+        public UserRole Role { get; set; }
         public bool IsActive { get; set; } = true;
     }
 }

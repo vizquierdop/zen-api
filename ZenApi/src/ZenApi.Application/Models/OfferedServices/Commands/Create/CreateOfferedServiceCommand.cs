@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ZenApi.Application.Common.Interfaces;
+using ZenApi.Application.Common.Interfaces.Repositories;
 using ZenApi.Application.Common.Mappings;
 using ZenApi.Domain.Entities;
 
@@ -23,12 +23,12 @@ namespace ZenApi.Application.Models.OfferedServices.Commands.Create
 
         public class CreateOfferedServiceCommandHandler : IRequestHandler<CreateOfferedServiceCommand, int>
         {
-            private readonly IApplicationDbContext _context;
+            private readonly IOfferedServiceCommandRepository _repository;
             private readonly IMapper _mapper;
 
-            public CreateOfferedServiceCommandHandler(IApplicationDbContext context, IMapper mapper)
-            { 
-                _context = context;
+            public CreateOfferedServiceCommandHandler(IOfferedServiceCommandRepository repository, IMapper mapper)
+            {
+                _repository = repository;
                 _mapper = mapper;
             }
 
@@ -37,16 +37,12 @@ namespace ZenApi.Application.Models.OfferedServices.Commands.Create
                 var entity = _mapper.Map<OfferedService>(request);
                 entity.IsActive = true;
 
-                if (request.Duration is null || !request.Duration.HasValue)
+                if (request.Duration is null)
                 {
                     entity.Duration = 0;
                 }
 
-                await _context.OfferedServices.AddAsync(entity);
-
-                await _context.SaveChangesAsync(cancellationToken);
-
-                return entity.Id;
+                return await _repository.CreateAsync(entity, cancellationToken);
             }
         }
     }

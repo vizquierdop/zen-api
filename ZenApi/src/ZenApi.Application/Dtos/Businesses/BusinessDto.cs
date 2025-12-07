@@ -36,7 +36,7 @@ namespace ZenApi.Application.Dtos.Businesses
         public int UserId { get; set; }
 
         public ProvinceDto Province { get; set; } = default!;
-        public UserDto User { get; set; } = default!;
+        public UserForBusinessDto User { get; set; } = default!;
         public IList<AvailabilityDto> Availabilities { get; set; } = new List<AvailabilityDto>();
         public IList<OfferedServiceDto> OfferedServices { get; set; } = new List<OfferedServiceDto>();
         public IList<HolidayDto> Holidays { get; set; } = new List<HolidayDto>();
@@ -50,6 +50,10 @@ namespace ZenApi.Application.Dtos.Businesses
                     dest => dest.Categories,
                     opt => opt.MapFrom(src => src.BusinessCategories.Select(bc => bc.Category))
                 );
+                //.ForMember(
+                //    dest => dest.Holidays,
+                //    opt => opt.MapFrom(src => src.Holidays ?? new List<Holiday>())
+                //);
         }
     }
 }

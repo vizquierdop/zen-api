@@ -12,24 +12,12 @@ using ZenApi.Domain.Enums;
 
 namespace ZenApi.Application.Dtos.Users
 {
-    public class UserDto : IMapFrom<User>
+    public class UserForBusinessDto : IMapFrom<User>
     {
         public required int Id { get; set; }
         public required string Email { get; set; }
-        //public required string Password { get; set; }
         public required string FirstName { get; set; }
         public string? LastName { get; set; }
-        public bool IsActive { get; set; } = true;
         public string? Phone { get; set; }
-        public UserRole Role { get; set; }
-
-        // Relations
-        public required int ProvinceId { get; set; }
-        public ProvinceDto? Province { get; set; }
-
-        public IList<ReservationDto> Reservations { get; set; } = new List<ReservationDto>();
-
-        public int? BusinessId { get; set; }
-        public BusinessShortDto? Business { get; set; }
     }
 }

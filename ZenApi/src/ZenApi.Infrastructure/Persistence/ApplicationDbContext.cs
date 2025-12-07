@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
+using ZenApi.Domain.Common;
 using ZenApi.Domain.Entities;
 using ZenApi.Infrastructure.Identity;
 
@@ -32,5 +33,25 @@ public class ApplicationDbContext : IdentityDbContext<AppUser, IdentityRole<int>
         base.OnModelCreating(modelBuilder);
 
         modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+    }
+
+    public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+    {
+        foreach (var entry in ChangeTracker.Entries<BaseAuditableEntity>())
+        {
+            if (entry.State == EntityState.Added)
+            {
+                entry.Entity.Created = DateTimeOffset.UtcNow;
+                entry.Entity.CreatedBy = "system";
+            }
+
+            if (entry.State == EntityState.Modified)
+            {
+                entry.Entity.LastModified = DateTimeOffset.UtcNow;
+                entry.Entity.LastModifiedBy = "system";
+            }
+        }
+
+        return base.SaveChangesAsync(cancellationToken);
     }
 }

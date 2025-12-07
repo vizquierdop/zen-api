@@ -13,8 +13,8 @@ namespace ZenApi.Application.Dtos.Availabilities
     {
         public required int Id { get; set; }
         public required int DayOfWeek { get; set; }
-        public required string Slot1Start { get; set; }
-        public required string Slot1End { get; set; }
+        public string? Slot1Start { get; set; }
+        public string? Slot1End { get; set; }
         public string? Slot2Start { get; set; }
         public string? Slot2End { get; set; }
         public bool IsActive { get; set; }

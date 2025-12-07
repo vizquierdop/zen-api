@@ -82,15 +82,15 @@ namespace ZenApi.Infrastructure.Repositories
 
                 // If BusinessCategories are present they should reference CategoryId only;
                 //    ensure BusinessId set and save (business.BusinessCategories may already be in business object)
-                if (business.BusinessCategories != null && business.BusinessCategories.Count > 0)
-                {
-                    foreach (var bc in business.BusinessCategories)
-                    {
-                        bc.BusinessId = business.Id;
-                        _context.BusinessCategories.Add(bc);
-                    }
-                    await _context.SaveChangesAsync(cancellationToken);
-                }
+                //if (business.BusinessCategories != null && business.BusinessCategories.Count > 0)
+                //{
+                //    foreach (var bc in business.BusinessCategories)
+                //    {
+                //        bc.BusinessId = business.Id;
+                //        _context.BusinessCategories.Add(bc);
+                //    }
+                //    await _context.SaveChangesAsync(cancellationToken);
+                //}
 
                 // Attach business id to user and update
                 user.BusinessId = business.Id;

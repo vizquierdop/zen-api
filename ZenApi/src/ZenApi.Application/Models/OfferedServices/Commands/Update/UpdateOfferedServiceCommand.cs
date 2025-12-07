@@ -17,7 +17,7 @@ namespace ZenApi.Application.Models.OfferedServices.Commands.Update
         public string? Name { get; init; }
         public string? Description { get; init; }
         public int? Duration { get; init; }
-        public int? Price { get; init; }
+        public decimal? Price { get; init; }
         public bool? IsActive { get; init; }
     }
 

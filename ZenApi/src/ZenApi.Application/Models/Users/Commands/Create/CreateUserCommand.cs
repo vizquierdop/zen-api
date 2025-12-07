@@ -68,7 +68,7 @@ namespace ZenApi.Application.Models.Users.Commands.Create
 
             var businessDto = request.Business;
 
-            var business = new Domain.Entities.Business
+            var business = new Business
             {
                 Name = businessDto.Name,
                 Address = businessDto.Address ?? "",

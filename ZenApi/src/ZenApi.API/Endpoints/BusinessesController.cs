@@ -1,0 +1,64 @@
+﻿using MediatR;
+using Microsoft.AspNetCore.Mvc;
+using ZenApi.Application.Common.Models.SearchModels;
+using ZenApi.Application.Models.Businesses.Commands.Update;
+using ZenApi.Application.Models.Businesses.Queries.GetAll;
+using ZenApi.Application.Models.Businesses.Queries.GetSingle;
+
+namespace ZenApi.API.Endpoints
+{
+    [ApiController]
+    [Route("api/[controller]")]
+    public class BusinessesController : ControllerBase
+    {
+        private readonly IMediator _mediator;
+
+        public BusinessesController(IMediator mediator)
+        { 
+            _mediator = mediator;
+        }
+
+        /// <summary>
+        /// Returns all businesses
+        /// </summary>
+        [HttpGet]
+        public async Task<IActionResult> GetAll(
+            [FromQuery] BusinessSearchModel query,
+            CancellationToken cancellationToken)
+        {
+            var result = await _mediator.Send(new GetBusinessesQuery(query), cancellationToken);
+            return Ok(result);
+        }
+
+        /// <summary>
+        /// Returns a business by its ID
+        /// </summary>
+        [HttpGet("{id:int}")]
+        public async Task<IActionResult> GetById(int id, CancellationToken cancellationToken)
+        {
+            var result = await _mediator.Send(new GetSingleBusinessQuery(id), cancellationToken);
+
+            if (result == null)
+                return NotFound();
+
+            return Ok(result);
+        }
+
+        /// <summary>
+        /// Updates a business
+        /// </summary>
+        [HttpPut("{id:int}")]
+        public async Task<IActionResult> Update(
+            int id,
+            [FromBody] UpdateBusinessCommand command,
+            CancellationToken cancellationToken)
+        {
+            if (id != command.Id)
+                return BadRequest("The ID in the URL must match the ID in the body.");
+
+            await _mediator.Send(command, cancellationToken);
+
+            return NoContent();
+        }
+    }
+}

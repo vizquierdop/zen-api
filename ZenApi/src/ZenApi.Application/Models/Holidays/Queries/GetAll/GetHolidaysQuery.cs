@@ -11,7 +11,7 @@ using ZenApi.Application.Dtos.Holidays;
 
 namespace ZenApi.Application.Models.Holidays.Queries.GetAll
 {
-    public record GetHolidaysQuery : HolidaySearchModel, IRequest<PaginatedList<HolidayDto>>;
+    public record GetHolidaysQuery(HolidaySearchModel Search) : IRequest<PaginatedList<HolidayDto>>;
 
     public class GetHolidaysQueryHandler : IRequestHandler<GetHolidaysQuery, PaginatedList<HolidayDto>>
     {
@@ -24,7 +24,7 @@ namespace ZenApi.Application.Models.Holidays.Queries.GetAll
 
         public async Task<PaginatedList<HolidayDto>> Handle(GetHolidaysQuery request, CancellationToken cancellationToken)
         {
-            return await _repository.GetAllAsync(request, cancellationToken);
+            return await _repository.GetAllAsync(request.Search, cancellationToken);
         }
     }
 }

@@ -1,17 +1,20 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 using ZenApi.Domain.Entities;
+using ZenApi.Infrastructure.Identity;
 
 namespace ZenApi.Infrastructure.Persistence;
 
-public class ApplicationDbContext : DbContext
+public class ApplicationDbContext : IdentityDbContext<AppUser, IdentityRole<int>, int>
 {
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
         : base(options)
     {
     }
 
-    public DbSet<User> Users => Set<User>();
+    public DbSet<User> UsersDomain => Set<User>();
     public DbSet<Province> Provinces => Set<Province>();
     public DbSet<Business> Businesses => Set<Business>();
     public DbSet<Availability> Availabilities => Set<Availability>();
@@ -21,6 +24,8 @@ public class ApplicationDbContext : DbContext
     public DbSet<Reservation> Reservations => Set<Reservation>();
 
     public DbSet<BusinessCategory> BusinessCategories => Set<BusinessCategory>();
+
+    public DbSet<RefreshToken> RefreshTokens => Set<RefreshToken>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

@@ -47,12 +47,15 @@ namespace ZenApi.Application.Models.Users.Commands.Create
 
         public async Task<int> Handle(CreateUserCommand request, CancellationToken cancellationToken)
         {
-            var hashedPassword = _securityService.HashPassword(request.Password);
+            //var hashedPassword = _securityService.HashPassword(request.Password);
 
-            var user = new User
+            var appUserId = await _securityService.CreateUserAsync(request.Email, request.Password, request.Role);
+
+            var domainUser = new User
             {
+                Id = appUserId,
                 Email = request.Email,
-                Password = hashedPassword,
+                //Password = hashedPassword,
                 FirstName = request.FirstName,
                 LastName = request.LastName,
                 Phone = request.Phone,
@@ -63,7 +66,7 @@ namespace ZenApi.Application.Models.Users.Commands.Create
 
             if (request.Role != UserRole.Business || request.Business is null)
             {
-                return await _users.CreateAsync(user, cancellationToken);
+                return await _users.CreateAsync(domainUser, cancellationToken);
             }
 
             var businessDto = request.Business;
@@ -92,7 +95,7 @@ namespace ZenApi.Application.Models.Users.Commands.Create
                     .ToList();
             }
 
-            var newUserId = await _users.CreateUserWithBusinessAsync(user, business, cancellationToken);
+            var newUserId = await _users.CreateUserWithBusinessAsync(domainUser, business, cancellationToken);
 
             return newUserId;
         }

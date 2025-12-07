@@ -11,7 +11,7 @@ using ZenApi.Application.Dtos.Provinces;
 
 namespace ZenApi.Application.Models.Provinces.Queries.GetAll
 {
-    public record GetProvincesQuery : ProvinceSearchModel, IRequest<PaginatedList<ProvinceDto>>;
+    public record GetProvincesQuery(ProvinceSearchModel Search) : IRequest<PaginatedList<ProvinceDto>>;
 
     public class GetProvincesQueryHandler : IRequestHandler<GetProvincesQuery, PaginatedList<ProvinceDto>>
     {
@@ -24,7 +24,7 @@ namespace ZenApi.Application.Models.Provinces.Queries.GetAll
 
         public async Task<PaginatedList<ProvinceDto>> Handle(GetProvincesQuery request, CancellationToken cancellationToken)
         {
-            return await _repository.GetAllAsync(request, cancellationToken);
+            return await _repository.GetAllAsync(request.Search, cancellationToken);
         }
     }
 }

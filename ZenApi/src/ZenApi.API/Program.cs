@@ -1,7 +1,9 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using ZenApi.Application;
 using ZenApi.Infrastructure;
 using ZenApi.Infrastructure.Persistence;
+using static System.Net.Mime.MediaTypeNames;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,6 +20,14 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 builder.Services.AddApplicationServices();
 builder.Services.AddInfrastructureServices();
+
+builder.Services.AddAutoMapper(cfg =>
+{
+    cfg.AddMaps(typeof(AssemblyMarker).Assembly);
+});
+
+builder.Services.AddMediatR(cfg =>
+    cfg.RegisterServicesFromAssemblies(typeof(AssemblyMarker).Assembly));
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();

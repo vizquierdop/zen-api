@@ -31,7 +31,9 @@ namespace ZenApi.Infrastructure
             services.AddScoped<IUserCommandRepository, UserCommandRepository>();
             services.AddScoped<IUserQueryRepository, UserQueryRepository>();
             services.AddScoped<IBusinessCommandRepository, BusinessCommandRepository>();
-            services.AddScoped<IBusinessQueryCommand, BusinessQueryRepository>();
+            services.AddScoped<IBusinessQueryRepository, BusinessQueryRepository>();
+            services.AddScoped<IBusinessCategoryCommandRepository, BusinessCategoryCommandRepository>();
+            services.AddScoped<IBusinessCategoryQueryRepository, BusinessCategoryQueryRepository>();
 
             return services;
         }

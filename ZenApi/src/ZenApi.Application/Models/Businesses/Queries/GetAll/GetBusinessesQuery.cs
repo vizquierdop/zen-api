@@ -15,9 +15,9 @@ namespace ZenApi.Application.Models.Businesses.Queries.GetAll
 
     public class GetBusinessesQueryHandler : IRequestHandler<GetBusinessesQuery, PaginatedList<BusinessDto>>
     {
-        private readonly IBusinessQueryCommand _repository;
+        private readonly IBusinessQueryRepository _repository;
 
-        public GetBusinessesQueryHandler(IBusinessQueryCommand repository)
+        public GetBusinessesQueryHandler(IBusinessQueryRepository repository)
         {
             _repository = repository;
         }

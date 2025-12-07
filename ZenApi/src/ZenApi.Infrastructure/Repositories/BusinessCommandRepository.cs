@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -49,6 +50,18 @@ namespace ZenApi.Infrastructure.Repositories
             }
 
             return entity.Id;
+        }
+
+        public async Task<Business?> GetByIdAsync(int id, CancellationToken cancellationToken)
+        {
+            return await _context.Businesses
+                .FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
+        }
+
+        public async Task UpdateAsync(Business entity, CancellationToken cancellationToken)
+        {
+            _context.Businesses.Update(entity);
+            await _context.SaveChangesAsync(cancellationToken);
         }
     }
 }

@@ -24,7 +24,7 @@ namespace ZenApi.Application.Models.Holidays.Queries.GetAll
 
         public async Task<PaginatedList<HolidayDto>> Handle(GetHolidaysQuery request, CancellationToken cancellationToken)
         {
-            return await _repository.SearchPagedAsync(request, cancellationToken);
+            return await _repository.GetAllAsync(request, cancellationToken);
         }
     }
 }

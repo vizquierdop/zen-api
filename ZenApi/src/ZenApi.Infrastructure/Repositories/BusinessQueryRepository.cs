@@ -16,7 +16,7 @@ using ZenApi.Infrastructure.Persistence;
 
 namespace ZenApi.Infrastructure.Repositories
 {
-    public class BusinessQueryRepository : IBusinessQueryCommand
+    public class BusinessQueryRepository : IBusinessQueryRepository
     {
         private readonly ApplicationDbContext _context;
         private readonly IConfigurationProvider _mapper;
@@ -64,6 +64,11 @@ namespace ZenApi.Infrastructure.Repositories
                 .Where(x => x.Id == id)
                 .ProjectTo<BusinessDto>(_mapper)
                 .FirstOrDefaultAsync(cancellationToken);
+        }
+
+        public Task<bool> ExistsAsync(int id, CancellationToken cancellationToken)
+        {
+            return _context.Businesses.AnyAsync(x => x.Id == id, cancellationToken);
         }
     }
 }

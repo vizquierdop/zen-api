@@ -22,6 +22,11 @@ builder.Services.AddInfrastructureServices();
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 
+builder.Services.AddSwaggerDocument(config =>
+{
+    config.Title = "ZenApi v1";
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -29,6 +34,11 @@ if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
 }
+
+app.UseSwaggerUi(settings =>
+{
+    settings.DocumentPath = "/openapi/v1.json";
+});
 
 app.UseHttpsRedirection();
 

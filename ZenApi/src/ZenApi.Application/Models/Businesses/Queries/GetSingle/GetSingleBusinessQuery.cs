@@ -13,9 +13,9 @@ namespace ZenApi.Application.Models.Businesses.Queries.GetSingle
 
     public class GetSingleBusinessQueryHandler : IRequestHandler<GetSingleBusinessQuery, BusinessDto>
     {
-        private readonly IBusinessQueryCommand _repository;
+        private readonly IBusinessQueryRepository _repository;
 
-        public GetSingleBusinessQueryHandler(IBusinessQueryCommand repository)
+        public GetSingleBusinessQueryHandler(IBusinessQueryRepository repository)
         {
             _repository = repository;
         }

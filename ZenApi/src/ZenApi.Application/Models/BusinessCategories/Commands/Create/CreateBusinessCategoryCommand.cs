@@ -1,10 +1,12 @@
-﻿using MediatR;
+﻿using AutoMapper;
+using MediatR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ZenApi.Application.Common.Interfaces;
+using ZenApi.Application.Common.Interfaces.Repositories;
 using ZenApi.Domain.Entities;
 
 namespace ZenApi.Application.Models.BusinessCategories.Commands.Create
@@ -18,47 +20,50 @@ namespace ZenApi.Application.Models.BusinessCategories.Commands.Create
     public class CreateBusinessCategoryCommandHandler
         : IRequestHandler<CreateBusinessCategoryCommand>
     {
-        private readonly IApplicationDbContext _context;
+        private readonly IBusinessQueryRepository _businessQueryRepository;
+        private readonly ICategoryQueryRepository _categoryQueryRepository;
+        private readonly IBusinessCategoryQueryRepository _businessCategoryQueryRepository;
+        private readonly IBusinessCategoryCommandRepository _businessCategoryCommandRepository;
 
-        public CreateBusinessCategoryCommandHandler(IApplicationDbContext context)
+        public CreateBusinessCategoryCommandHandler(
+            IBusinessQueryRepository businessQueryRepository,
+            ICategoryQueryRepository categoryQueryRepository,
+            IBusinessCategoryQueryRepository businessCategoryQueryRepository,
+            IBusinessCategoryCommandRepository businessCategoryCommandRepository)
         {
-            _context = context;
+            _businessQueryRepository = businessQueryRepository;
+            _categoryQueryRepository = categoryQueryRepository;
+            _businessCategoryQueryRepository = businessCategoryQueryRepository;
+            _businessCategoryCommandRepository = businessCategoryCommandRepository;
         }
 
         public async Task Handle(CreateBusinessCategoryCommand request, CancellationToken cancellationToken)
         {
             // Check business exists
-            var businessExists = await _context.Businesses
-                .AnyAsync(x => x.Id == request.BusinessId, cancellationToken);
-
+            var businessExists = await _businessQueryRepository.ExistsAsync(request.BusinessId, cancellationToken);
             if (!businessExists)
                 throw new Exception("Business not found");
 
             // Check category exists
-            var categoryExists = await _context.Categories
-                .AnyAsync(x => x.Id == request.CategoryId, cancellationToken);
-
+            var categoryExists = await _categoryQueryRepository.ExistsAsync(request.CategoryId, cancellationToken);
             if (!categoryExists)
                 throw new Exception("Category not found");
 
-            // Prevent already linked registers
-            var existsRelation = await _context.BusinessCategories
-                .AnyAsync(
-                    x => x.BusinessId == request.BusinessId && x.CategoryId == request.CategoryId,
-                    cancellationToken);
+            // Check an existing relation
+            var existsRelation =
+                await _businessCategoryQueryRepository.ExistsAsync(request.BusinessId, request.CategoryId, cancellationToken);
 
             if (existsRelation)
                 throw new InvalidOperationException("This business is already linked to this category.");
 
+            // Create entity
             var entity = new BusinessCategory
             {
                 BusinessId = request.BusinessId,
                 CategoryId = request.CategoryId
             };
 
-            _context.BusinessCategories.Add(entity);
-
-            await _context.SaveChangesAsync(cancellationToken);
+            await _businessCategoryCommandRepository.CreateAsync(entity, cancellationToken);
         }
     }
 }

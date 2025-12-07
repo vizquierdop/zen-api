@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ZenApi.Application.Common.Interfaces;
+using ZenApi.Application.Common.Interfaces.Repositories;
 
 namespace ZenApi.Application.Models.BusinessCategories.Commands.Delete
 {
@@ -17,27 +18,16 @@ namespace ZenApi.Application.Models.BusinessCategories.Commands.Delete
     public class DeleteBusinessCategoryCommandHandler
         : IRequestHandler<DeleteBusinessCategoryCommand>
     {
-        private readonly IApplicationDbContext _context;
+        private readonly IBusinessCategoryCommandRepository _repository;
 
-        public DeleteBusinessCategoryCommandHandler(IApplicationDbContext context)
+        public DeleteBusinessCategoryCommandHandler(IBusinessCategoryCommandRepository repository)
         {
-            _context = context;
+            _repository = repository;
         }
 
         public async Task Handle(DeleteBusinessCategoryCommand request, CancellationToken cancellationToken)
         {
-            var entity = await _context.BusinessCategories
-                .FirstOrDefaultAsync(
-                    x => x.BusinessId == request.BusinessId
-                      && x.CategoryId == request.CategoryId,
-                    cancellationToken);
-
-            if (entity is null)
-                throw new Exception("Business-Category relation not found");
-
-            _context.BusinessCategories.Remove(entity);
-
-            await _context.SaveChangesAsync(cancellationToken);
+            await _repository.DeleteAsync(request.CategoryId, request.BusinessId, cancellationToken);
         }
     }
 }

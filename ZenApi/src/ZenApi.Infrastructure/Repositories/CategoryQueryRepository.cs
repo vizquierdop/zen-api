@@ -66,5 +66,10 @@ namespace ZenApi.Infrastructure.Repositories
                 .Select(c => c.Id)
                 .ToListAsync(cancellationToken);
         }
+
+        public Task<bool> ExistsAsync(int id, CancellationToken cancellationToken)
+        {
+            return _context.Categories.AnyAsync(x => x.Id == id, cancellationToken);
+        }
     }
 }

@@ -11,7 +11,7 @@ using ZenApi.Application.Dtos.Reservations;
 
 namespace ZenApi.Application.Models.Reservations.Queries.GetAll
 {
-    public record GetReservationsQuery : ReservationSearchModel, IRequest<PaginatedList<ReservationDto>>;
+    public record GetReservationsQuery(ReservationSearchModel Search) : IRequest<PaginatedList<ReservationDto>>;
 
     public class GetReservationsQueryHandler : IRequestHandler<GetReservationsQuery, PaginatedList<ReservationDto>>
     {
@@ -24,7 +24,7 @@ namespace ZenApi.Application.Models.Reservations.Queries.GetAll
 
         public async Task<PaginatedList<ReservationDto>> Handle(GetReservationsQuery request, CancellationToken cancellationToken)
         {
-            return await _repository.GetAllAsync(request, cancellationToken);
+            return await _repository.GetAllAsync(request.Search, cancellationToken);
         }
     }
 }

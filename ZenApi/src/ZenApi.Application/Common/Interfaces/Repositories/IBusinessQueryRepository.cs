@@ -9,9 +9,10 @@ using ZenApi.Application.Dtos.Businesses;
 
 namespace ZenApi.Application.Common.Interfaces.Repositories
 {
-    public interface IBusinessQueryCommand
+    public interface IBusinessQueryRepository
     {
         Task<PaginatedList<BusinessDto>> GetAllAsync(BusinessSearchModel search, CancellationToken cancellationToken);
         Task<BusinessDto?> GetByIdAsync(int id, CancellationToken cancellationToken);
+        Task<bool> ExistsAsync(int id, CancellationToken cancellationToken);
     }
 }

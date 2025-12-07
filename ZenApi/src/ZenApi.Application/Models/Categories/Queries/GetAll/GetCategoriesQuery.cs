@@ -12,7 +12,7 @@ using ZenApi.Application.Dtos.Categories;
 
 namespace ZenApi.Application.Models.Categories.Queries.GetAll
 {
-    public record GetCategoriesQuery : CategorySearchModel, IRequest<PaginatedList<CategoryDto>>;
+    public record GetCategoriesQuery(CategorySearchModel Search) : IRequest<PaginatedList<CategoryDto>>;
 
     public class GetCategoriesQueryHandler : IRequestHandler<GetCategoriesQuery, PaginatedList<CategoryDto>>
     {
@@ -25,7 +25,7 @@ namespace ZenApi.Application.Models.Categories.Queries.GetAll
 
         public async Task<PaginatedList<CategoryDto>> Handle(GetCategoriesQuery request, CancellationToken cancellationToken)
         {
-            return await _repository.GetAllAsync(request, cancellationToken);
+            return await _repository.GetAllAsync(request.Search, cancellationToken);
         }
     }
 }

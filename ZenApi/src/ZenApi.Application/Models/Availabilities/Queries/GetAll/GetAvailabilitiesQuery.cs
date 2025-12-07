@@ -11,7 +11,7 @@ using ZenApi.Application.Dtos.Availabilities;
 
 namespace ZenApi.Application.Models.Availabilities.Queries.GetAll
 {
-    public record GetAvailabilitiesQuery : AvailabilitySearchModel, IRequest<PaginatedList<AvailabilityDto>>;
+    public record GetAvailabilitiesQuery(AvailabilitySearchModel Search) : IRequest<PaginatedList<AvailabilityDto>>;
 
     public class GetAvailabilitiesQueryHandler : IRequestHandler<GetAvailabilitiesQuery, PaginatedList<AvailabilityDto>>
     {
@@ -24,7 +24,7 @@ namespace ZenApi.Application.Models.Availabilities.Queries.GetAll
 
         public async Task<PaginatedList<AvailabilityDto>> Handle(GetAvailabilitiesQuery request, CancellationToken cancellationToken)
         {
-            return await _repository.GetAllAsync(request, cancellationToken);
+            return await _repository.GetAllAsync(request.Search, cancellationToken);
         }
     }
 }

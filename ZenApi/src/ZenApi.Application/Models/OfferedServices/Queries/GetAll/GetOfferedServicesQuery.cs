@@ -11,7 +11,7 @@ using ZenApi.Application.Dtos.OfferedServices;
 
 namespace ZenApi.Application.Models.OfferedServices.Queries.GetAll
 {
-    public record GetOfferedServicesQuery : OfferedServiceSearchModel, IRequest<PaginatedList<OfferedServiceDto>>;
+    public record GetOfferedServicesQuery(OfferedServiceSearchModel Search) : IRequest<PaginatedList<OfferedServiceDto>>;
 
     public class GetOfferedServicesQueryHandler : IRequestHandler<GetOfferedServicesQuery, PaginatedList<OfferedServiceDto>>
     {
@@ -24,7 +24,7 @@ namespace ZenApi.Application.Models.OfferedServices.Queries.GetAll
 
         public async Task<PaginatedList<OfferedServiceDto>> Handle(GetOfferedServicesQuery request, CancellationToken cancellationToken)
         {
-            return await _repository.GetAllAsync(request, cancellationToken);
+            return await _repository.GetAllAsync(request.Search, cancellationToken);
         }
     }
 }

@@ -25,7 +25,7 @@ namespace ZenApi.Infrastructure.Repositories
 
         public async Task<UserDto?> GetByIdAsync(int id, CancellationToken cancellationToken)
         {
-            return await _context.Users
+            return await _context.UsersDomain
                 .AsNoTracking()
                 // TODO Maybe it is not necessary
                 .Include(x => x.Business)

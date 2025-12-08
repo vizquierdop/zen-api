@@ -12,7 +12,7 @@ namespace ZenApi.Application.Common.Models.SearchModels
         public string? Search { get; set; }
         public string? Name { get; set; }
         public int? Duration { get; set; }
-        public int? Price { get; set; }
+        public decimal? Price { get; set; }
         public bool? IsActive { get; set; }
         public int? ProvinceId { get; set; }
     }

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ZenApi.Infrastructure.Persistence;
 
@@ -11,9 +12,11 @@ using ZenApi.Infrastructure.Persistence;
 namespace ZenApi.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251207165003_AddRefreshToken")]
+    partial class AddRefreshToken
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -165,7 +168,7 @@ namespace ZenApi.Infrastructure.Persistence.Migrations
                     b.Property<int>("BusinessId")
                         .HasColumnType("int");
 
-                    b.Property<DateTimeOffset?>("Created")
+                    b.Property<DateTimeOffset>("Created")
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("CreatedBy")
@@ -179,7 +182,7 @@ namespace ZenApi.Infrastructure.Persistence.Migrations
                         .HasColumnType("tinyint(1)")
                         .HasDefaultValue(true);
 
-                    b.Property<DateTimeOffset?>("LastModified")
+                    b.Property<DateTimeOffset>("LastModified")
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("LastModifiedBy")
@@ -216,7 +219,7 @@ namespace ZenApi.Infrastructure.Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<DateTimeOffset?>("Created")
+                    b.Property<DateTimeOffset>("Created")
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("CreatedBy")
@@ -248,7 +251,7 @@ namespace ZenApi.Infrastructure.Persistence.Migrations
                     b.Property<string>("Keyword3")
                         .HasColumnType("longtext");
 
-                    b.Property<DateTimeOffset?>("LastModified")
+                    b.Property<DateTimeOffset>("LastModified")
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("LastModifiedBy")
@@ -300,7 +303,7 @@ namespace ZenApi.Infrastructure.Persistence.Migrations
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
-                    b.Property<DateTimeOffset?>("Created")
+                    b.Property<DateTimeOffset>("Created")
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("CreatedBy")
@@ -309,7 +312,7 @@ namespace ZenApi.Infrastructure.Persistence.Migrations
                     b.Property<int>("Id")
                         .HasColumnType("int");
 
-                    b.Property<DateTimeOffset?>("LastModified")
+                    b.Property<DateTimeOffset>("LastModified")
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("LastModifiedBy")
@@ -330,13 +333,13 @@ namespace ZenApi.Infrastructure.Persistence.Migrations
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTimeOffset?>("Created")
+                    b.Property<DateTimeOffset>("Created")
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("CreatedBy")
                         .HasColumnType("longtext");
 
-                    b.Property<DateTimeOffset?>("LastModified")
+                    b.Property<DateTimeOffset>("LastModified")
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("LastModifiedBy")
@@ -362,7 +365,7 @@ namespace ZenApi.Infrastructure.Persistence.Migrations
                     b.Property<int>("BusinessId")
                         .HasColumnType("int");
 
-                    b.Property<DateTimeOffset?>("Created")
+                    b.Property<DateTimeOffset>("Created")
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("CreatedBy")
@@ -371,7 +374,7 @@ namespace ZenApi.Infrastructure.Persistence.Migrations
                     b.Property<DateTime>("EndDate")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<DateTimeOffset?>("LastModified")
+                    b.Property<DateTimeOffset>("LastModified")
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("LastModifiedBy")
@@ -398,7 +401,7 @@ namespace ZenApi.Infrastructure.Persistence.Migrations
                     b.Property<int>("BusinessId")
                         .HasColumnType("int");
 
-                    b.Property<DateTimeOffset?>("Created")
+                    b.Property<DateTimeOffset>("Created")
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("CreatedBy")
@@ -415,7 +418,7 @@ namespace ZenApi.Infrastructure.Persistence.Migrations
                         .HasColumnType("tinyint(1)")
                         .HasDefaultValue(true);
 
-                    b.Property<DateTimeOffset?>("LastModified")
+                    b.Property<DateTimeOffset>("LastModified")
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("LastModifiedBy")
@@ -425,7 +428,7 @@ namespace ZenApi.Infrastructure.Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<decimal?>("Price")
+                    b.Property<decimal>("Price")
                         .HasColumnType("decimal(18, 2)");
 
                     b.HasKey("Id");
@@ -443,13 +446,13 @@ namespace ZenApi.Infrastructure.Persistence.Migrations
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTimeOffset?>("Created")
+                    b.Property<DateTimeOffset>("Created")
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("CreatedBy")
                         .HasColumnType("longtext");
 
-                    b.Property<DateTimeOffset?>("LastModified")
+                    b.Property<DateTimeOffset>("LastModified")
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("LastModifiedBy")
@@ -513,7 +516,7 @@ namespace ZenApi.Infrastructure.Persistence.Migrations
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTimeOffset?>("Created")
+                    b.Property<DateTimeOffset>("Created")
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("CreatedBy")
@@ -535,7 +538,7 @@ namespace ZenApi.Infrastructure.Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<DateTimeOffset?>("LastModified")
+                    b.Property<DateTimeOffset>("LastModified")
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("LastModifiedBy")
@@ -571,7 +574,7 @@ namespace ZenApi.Infrastructure.Persistence.Migrations
                     b.Property<int?>("BusinessId")
                         .HasColumnType("int");
 
-                    b.Property<DateTimeOffset?>("Created")
+                    b.Property<DateTimeOffset>("Created")
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("CreatedBy")
@@ -590,7 +593,7 @@ namespace ZenApi.Infrastructure.Persistence.Migrations
                         .HasColumnType("tinyint(1)")
                         .HasDefaultValue(true);
 
-                    b.Property<DateTimeOffset?>("LastModified")
+                    b.Property<DateTimeOffset>("LastModified")
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("LastModifiedBy")

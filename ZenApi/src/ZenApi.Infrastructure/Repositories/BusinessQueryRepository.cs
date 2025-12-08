@@ -19,12 +19,14 @@ namespace ZenApi.Infrastructure.Repositories
     public class BusinessQueryRepository : IBusinessQueryRepository
     {
         private readonly ApplicationDbContext _context;
-        private readonly IConfigurationProvider _mapper;
+        private readonly IMapper _mapper;
+        private readonly IConfigurationProvider _configuration;
 
-        public BusinessQueryRepository(ApplicationDbContext context, IConfigurationProvider mapper)
+        public BusinessQueryRepository(ApplicationDbContext context, IMapper mapper, IConfigurationProvider configuration)
         {
             _context = context;
             _mapper = mapper;
+            _configuration = configuration;
         }
 
         public async Task<PaginatedList<BusinessDto>> GetAllAsync(BusinessSearchModel search, CancellationToken cancellationToken)
@@ -48,10 +50,13 @@ namespace ZenApi.Infrastructure.Repositories
 
             var count = await query.CountAsync(cancellationToken);
 
+            var skip = (search.PaginationSkip.GetValueOrDefault(1) - 1) * search.PaginationLength.GetValueOrDefault(10);
+            var take = search.PaginationLength.GetValueOrDefault(10);
+
             var items = await query
-                .Skip((search.PaginationSkip.GetValueOrDefault(1) - 1) * search.PaginationLength.GetValueOrDefault(10))
-                .Take(search.PaginationLength.GetValueOrDefault(10))
-                .ProjectTo<BusinessDto>(_mapper)
+                .ProjectTo<BusinessDto>(_configuration)
+                .Skip(skip)
+                .Take(take)
                 .ToListAsync(cancellationToken);
 
             return new PaginatedList<BusinessDto>(items, count, search.PaginationSkip.GetValueOrDefault(1), search.PaginationLength.GetValueOrDefault(10));
@@ -62,7 +67,7 @@ namespace ZenApi.Infrastructure.Repositories
             return await _context.Businesses
                 .AsNoTracking()
                 .Where(x => x.Id == id)
-                .ProjectTo<BusinessDto>(_mapper)
+                .ProjectTo<BusinessDto>(_configuration)
                 .FirstOrDefaultAsync(cancellationToken);
         }
 

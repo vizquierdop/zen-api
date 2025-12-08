@@ -12,7 +12,7 @@ namespace ZenApi.Domain.Entities
         public required string Name { get; set; }
         public string? Description { get; set; }
         public int? Duration { get; set; }
-        public required int Price { get; set; }
+        public decimal? Price { get; set; }
         public required bool IsActive { get; set; }
 
         // Relations

@@ -16,7 +16,7 @@ namespace ZenApi.Application.Models.OfferedServices.Commands.Create
         public required string Name { get; init; }
         public string? Description { get; init; }
         public int? Duration { get; init; }
-        public required int Price { get; init; }
+        public required decimal Price { get; init; }
         public required int BusinessId { get; init; }
 
 

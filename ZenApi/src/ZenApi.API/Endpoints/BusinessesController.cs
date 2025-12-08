@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ZenApi.Application.Common.Models.SearchModels;
 using ZenApi.Application.Models.Businesses.Commands.Update;
@@ -22,6 +23,7 @@ namespace ZenApi.API.Endpoints
         /// Returns all businesses
         /// </summary>
         [HttpGet]
+        [Authorize]
         public async Task<IActionResult> GetAll(
             [FromQuery] BusinessSearchModel query,
             CancellationToken cancellationToken)

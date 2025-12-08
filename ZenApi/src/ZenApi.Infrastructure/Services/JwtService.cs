@@ -36,6 +36,9 @@ namespace ZenApi.Infrastructure.Services
         public string GenerateAccessToken(User user)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
+            if (string.IsNullOrWhiteSpace(_settings.Secret))
+                throw new InvalidOperationException("JwtSettings:Secret no está configurado.");
+
             var key = Encoding.ASCII.GetBytes(_settings.Secret);
 
             var claims = new List<Claim>

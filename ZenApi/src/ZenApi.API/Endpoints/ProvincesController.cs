@@ -13,6 +13,7 @@ namespace ZenApi.API.Endpoints
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize]
     public class ProvincesController : ControllerBase
     {
         private readonly IMediator _mediator;

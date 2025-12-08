@@ -1,12 +1,15 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ZenApi.Application.Models.BusinessCategories.Commands.Create;
 using ZenApi.Application.Models.BusinessCategories.Commands.Delete;
+using ZenApi.Domain.Enums;
 
 namespace ZenApi.API.Endpoints
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize]
     public class BusinessCategoriesController : ControllerBase
     {
         private readonly IMediator _mediator;
@@ -20,6 +23,7 @@ namespace ZenApi.API.Endpoints
         /// Creates a new business-category relation
         /// </summary>
         [HttpPost]
+        [Authorize(Roles = $"{nameof(UserRole.Business)},{nameof(UserRole.Admin)}")]
         public async Task<IActionResult> Create(
             [FromBody] CreateBusinessCategoryCommand command,
             CancellationToken cancellationToken)
@@ -32,6 +36,7 @@ namespace ZenApi.API.Endpoints
         /// Deletes a business-category relation
         /// </summary>
         [HttpDelete]
+        [Authorize(Roles = $"{nameof(UserRole.Business)},{nameof(UserRole.Admin)}")]
         public async Task<IActionResult> Delete(
             [FromBody] DeleteBusinessCategoryCommand command,
             CancellationToken cancellationToken)

@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ZenApi.Application.Common.Models.SearchModels;
 using ZenApi.Application.Models.Reservations.Commands.Create;
@@ -10,6 +11,7 @@ namespace ZenApi.API.Endpoints
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize]
     public class ReservationsController : ControllerBase
     {
         private readonly IMediator _mediator;

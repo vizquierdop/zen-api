@@ -5,11 +5,13 @@ using ZenApi.Application.Common.Models.SearchModels;
 using ZenApi.Application.Models.Businesses.Commands.Update;
 using ZenApi.Application.Models.Businesses.Queries.GetAll;
 using ZenApi.Application.Models.Businesses.Queries.GetSingle;
+using ZenApi.Domain.Enums;
 
 namespace ZenApi.API.Endpoints
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize]
     public class BusinessesController : ControllerBase
     {
         private readonly IMediator _mediator;
@@ -50,6 +52,7 @@ namespace ZenApi.API.Endpoints
         /// Updates a business
         /// </summary>
         [HttpPut("{id:int}")]
+        [Authorize(Roles = $"{nameof(UserRole.Business)},{nameof(UserRole.Admin)}")]
         public async Task<IActionResult> Update(
             int id,
             [FromBody] UpdateBusinessCommand command,

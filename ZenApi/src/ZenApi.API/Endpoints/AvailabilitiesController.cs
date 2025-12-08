@@ -1,13 +1,16 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ZenApi.Application.Common.Models.SearchModels;
 using ZenApi.Application.Models.Availabilities.Commands.Update;
 using ZenApi.Application.Models.Availabilities.Queries.GetAll;
+using ZenApi.Domain.Enums;
 
 namespace ZenApi.API.Endpoints
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize]
     public class AvailabilitiesController : ControllerBase
     {
         private readonly IMediator _mediator;
@@ -33,6 +36,7 @@ namespace ZenApi.API.Endpoints
         /// Update an availability
         /// </summary>
         [HttpPut("{id}")]
+        [Authorize(Roles = $"{nameof(UserRole.Business)},{nameof(UserRole.Admin)}")]
         public async Task<IActionResult> Update(
             int id,
             [FromBody] UpdateAvailabilityCommand command,

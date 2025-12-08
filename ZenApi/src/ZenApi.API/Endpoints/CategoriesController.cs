@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ZenApi.Application.Common.Models.SearchModels;
 using ZenApi.Application.Models.Categories.Queries.GetAll;
@@ -7,6 +8,7 @@ namespace ZenApi.API.Endpoints
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize]
     public class CategoriesController : ControllerBase
     {
         private readonly IMediator _mediator;

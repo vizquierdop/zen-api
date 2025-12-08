@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ZenApi.Application.Models.Users.Commands.Create;
 using ZenApi.Application.Models.Users.Commands.Update;
@@ -21,6 +22,7 @@ namespace ZenApi.API.Endpoints
         /// Returns a user by its ID
         /// </summary>
         [HttpGet("{id:int}")]
+        [Authorize]
         public async Task<IActionResult> GetById(int id, CancellationToken cancellationToken)
         {
             var result = await _mediator.Send(new GetSingleUserQuery(id), cancellationToken);
@@ -47,6 +49,7 @@ namespace ZenApi.API.Endpoints
         /// Updates a user
         /// </summary>
         [HttpPut("{id:int}")]
+        [Authorize]
         public async Task<IActionResult> Update(
             int id,
             [FromBody] UpdateUserCommand command,

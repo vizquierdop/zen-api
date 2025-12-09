@@ -14,7 +14,7 @@ namespace ZenApi.Application.Models.Reservations.Commands.Update
 {
     public record UpdateReservationCommand : IRequest, IMapTo<Reservation>
     {
-        public required int Id{ get; init; }
+        public required int Id { get; init; }
         public required DateTime Date { get; init; }
         public required string StartTime { get; init; }
         public required string EndTime { get; init; }

@@ -71,12 +71,14 @@ namespace ZenApi.Application.Models.Reservations.Queries.GetAll
 
             if (request.StartDate.HasValue)
             {
-                query = query.Where(x => x.Date >= request.StartDate.Value);
+                var start = request.StartDate.Value.Date;
+                query = query.Where(x => x.Date >= start);
             }
 
             if (request.EndDate.HasValue)
             {
-                query = query.Where(x => x.Date <= request.EndDate.Value);
+                var end = request.EndDate.Value.Date.AddDays(1);
+                query = query.Where(x => x.Date < end);
             }
 
             if (!string.IsNullOrWhiteSpace(request.StartTime))

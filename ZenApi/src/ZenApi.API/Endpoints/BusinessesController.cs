@@ -52,7 +52,7 @@ namespace ZenApi.API.Endpoints
         /// Updates a business
         /// </summary>
         [HttpPut("{id:int}")]
-        [Authorize(Roles = $"{nameof(UserRole.Business)},{nameof(UserRole.Admin)}")]
+        //[Authorize(Roles = $"{nameof(UserRole.Business)},{nameof(UserRole.Admin)}")]
         public async Task<IActionResult> Update(
             int id,
             [FromBody] UpdateBusinessCommand command,

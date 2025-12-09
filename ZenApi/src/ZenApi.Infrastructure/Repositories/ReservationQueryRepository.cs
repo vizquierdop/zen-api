@@ -35,7 +35,7 @@ namespace ZenApi.Infrastructure.Repositories
 
             query = ReservationQueryFilters.CreateFilters(query, search);
 
-            var orderBy = string.IsNullOrEmpty(search.OrderBy) ? "StartDate" : search.OrderBy;
+            var orderBy = string.IsNullOrEmpty(search.OrderBy) ? "Date" : search.OrderBy;
 
             if (search.OrderDirection == DtOrderDir.Desc)
             {

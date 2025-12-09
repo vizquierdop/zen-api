@@ -11,5 +11,6 @@ namespace ZenApi.Application.Common.Models.SearchModels
         public string? CategoryIds { get; set; }
         public string? Name { get; set; }
         public bool? IsActive { get; set; }
+        public int? ProvinceId { get; set; }
     }
 }

@@ -19,6 +19,7 @@ namespace ZenApi.Application.Models.Users.Commands.Update
         public string? LastName { get; init; }
         public bool? IsActive { get; init; }
         public string? Phone { get; init; }
+        public int? ProvinceId { get; set; }
     }
 
     public class UpdateUserCommandHandler : IRequestHandler<UpdateUserCommand>

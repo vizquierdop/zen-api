@@ -56,7 +56,8 @@ namespace ZenApi.Application.Models.Auth.Login
 
                 UserId = domainUser.Id,
                 Email = domainUser.Email,
-                Role = domainUser.Role.ToString()
+                Role = domainUser.Role,
+                BusinessId = domainUser.BusinessId,
             };
 
             //var userId = await _securityService.GetUserIdByEmailAsync(request.Email);

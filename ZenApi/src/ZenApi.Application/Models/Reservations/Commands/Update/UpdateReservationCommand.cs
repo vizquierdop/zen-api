@@ -9,6 +9,7 @@ using ZenApi.Application.Common.Interfaces;
 using ZenApi.Application.Common.Interfaces.Repositories;
 using ZenApi.Application.Common.Mappings;
 using ZenApi.Domain.Entities;
+using ZenApi.Domain.Enums;
 
 namespace ZenApi.Application.Models.Reservations.Commands.Update
 {
@@ -22,6 +23,7 @@ namespace ZenApi.Application.Models.Reservations.Commands.Update
         public string? CustomerEmail { get; init; }
         public string? CustomerPhone { get; init; }
         public required int ServiceId { get; init; }
+        public ReservationStatus? Status { get; set; }
     }
 
     public class UpdateReservationCommandHandler : IRequestHandler<UpdateReservationCommand>

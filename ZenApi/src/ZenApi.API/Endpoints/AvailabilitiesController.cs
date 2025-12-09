@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ZenApi.Application.Common.Models.SearchModels;
+using ZenApi.Application.Models.Availabilities.Commands.BulkUpdate;
 using ZenApi.Application.Models.Availabilities.Commands.Update;
 using ZenApi.Application.Models.Availabilities.Queries.GetAll;
 using ZenApi.Domain.Enums;
@@ -46,6 +47,24 @@ namespace ZenApi.API.Endpoints
                 return BadRequest("Id in URL does not match Id in body.");
 
             await _mediator.Send(command, cancellationToken);
+            return NoContent();
+        }
+
+        /// <summary>
+        /// Bulk update all availabilities for a specific business
+        /// </summary>
+        [HttpPut("business/{businessId}")]
+        [Authorize(Roles = $"{nameof(UserRole.Business)},{nameof(UserRole.Admin)}")]
+        public async Task<IActionResult> UpdateBulk(
+            int businessId,
+            [FromBody] BulkUpdateAvailabilitiesCommand command,
+            CancellationToken cancellationToken)
+        {
+            if (businessId != command.BusinessId)
+                return BadRequest("BusinessId in URL does not match BusinessId in body.");
+
+            await _mediator.Send(command, cancellationToken);
+
             return NoContent();
         }
     }

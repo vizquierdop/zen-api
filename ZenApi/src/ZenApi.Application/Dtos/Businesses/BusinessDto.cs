@@ -34,6 +34,7 @@ namespace ZenApi.Application.Dtos.Businesses
         public string? FacebookUser { get; set; }
         public string? GoogleMaps { get; set; }
         public int UserId { get; set; }
+        public int ProvinceId { get; set; }
 
         public ProvinceDto Province { get; set; } = default!;
         public UserForBusinessDto User { get; set; } = default!;

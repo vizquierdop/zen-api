@@ -13,6 +13,8 @@ using static System.Net.Mime.MediaTypeNames;
 
 var builder = WebApplication.CreateBuilder(args);
 
+string AllowedHosts = "_allowedHosts";
+
 builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection("JwtSettings"));
 
 // Add services to the container.
@@ -28,6 +30,12 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 builder.Services.AddApplicationServices();
 builder.Services.AddInfrastructureServices();
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(AllowedHosts,
+        builder => { builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader(); });
+});
 
 builder.Services.AddAutoMapper(cfg =>
 {
@@ -79,6 +87,8 @@ builder.Services.AddSwaggerDocument(config =>
 
 
 var app = builder.Build();
+
+app.UseCors(AllowedHosts);
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

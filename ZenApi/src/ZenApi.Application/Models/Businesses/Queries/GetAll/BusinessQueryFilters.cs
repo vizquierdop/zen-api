@@ -38,6 +38,11 @@ namespace ZenApi.Application.Models.Businesses.Queries.GetAll
                 query = query.Where(x => x.IsActive == request.IsActive);
             }
 
+            if (request.ProvinceId != null)
+            {
+                query = query.Where(x => x.ProvinceId == request.ProvinceId);
+            }
+
             return query;
         }
     }

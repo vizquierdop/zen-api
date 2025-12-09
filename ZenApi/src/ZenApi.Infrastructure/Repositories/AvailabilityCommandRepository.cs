@@ -20,6 +20,13 @@ namespace ZenApi.Infrastructure.Repositories
             _context = context;
         }
 
+        public async Task<List<Availability>> GetByBusinessIdAsync(int businessId, CancellationToken cancellationToken)
+        {
+            return await _context.Availabilities
+                .Where(x => x.BusinessId == businessId)
+                .ToListAsync(cancellationToken);
+        }
+
         public async Task<Availability?> GetByIdAsync(int id, CancellationToken cancellationToken)
         {
             return await _context.Availabilities
@@ -29,6 +36,12 @@ namespace ZenApi.Infrastructure.Repositories
         public async Task UpdateAsync(Availability entity, CancellationToken cancellationToken)
         {
             _context.Availabilities.Update(entity);
+            await _context.SaveChangesAsync(cancellationToken);
+        }
+
+        public async Task UpdateRangeAsync(IEnumerable<Availability> entities, CancellationToken cancellationToken)
+        {
+            _context.Availabilities.UpdateRange(entities);
             await _context.SaveChangesAsync(cancellationToken);
         }
     }

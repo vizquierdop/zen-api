@@ -8,7 +8,6 @@ namespace ZenApi.API.Endpoints
 {
     [ApiController]
     [Route("api/[controller]")]
-    [Authorize]
     public class CategoriesController : ControllerBase
     {
         private readonly IMediator _mediator;

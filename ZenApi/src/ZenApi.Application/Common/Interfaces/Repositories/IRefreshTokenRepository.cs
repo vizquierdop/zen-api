@@ -12,5 +12,7 @@ namespace ZenApi.Application.Common.Interfaces.Repositories
         Task SaveAsync(RefreshToken token, CancellationToken cancellationToken);
         Task<RefreshToken?> GetByTokenAsync(string token, CancellationToken cancellationToken);
         Task InvalidateAsync(string token, CancellationToken cancellationToken);
+        Task AddAsync(RefreshToken entity, CancellationToken cancellationToken);
+        Task UpdateAsync(RefreshToken entity, CancellationToken cancellationToken);
     }
 }

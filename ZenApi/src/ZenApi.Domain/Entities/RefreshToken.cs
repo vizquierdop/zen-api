@@ -16,7 +16,7 @@ namespace ZenApi.Domain.Entities
         public string Token { get; set; } = default!;
         public DateTime Expires { get; set; }
         public DateTime Created { get; set; }
-        public string CreatedByIp { get; set; } = default!;
+        public string? CreatedByIp { get; set; } = default!;
 
         public DateTime? Revoked { get; set; }
         public string? RevokedByIp { get; set; }

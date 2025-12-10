@@ -35,6 +35,9 @@ namespace ZenApi.Infrastructure.Services
 
         public string GenerateAccessToken(User user)
         {
+            if (user == null)
+                throw new ArgumentNullException(nameof(user), "Cannot generate token for a null user.");
+
             var tokenHandler = new JwtSecurityTokenHandler();
             if (string.IsNullOrWhiteSpace(_settings.Secret))
                 throw new InvalidOperationException("JwtSettings:Secret no está configurado.");

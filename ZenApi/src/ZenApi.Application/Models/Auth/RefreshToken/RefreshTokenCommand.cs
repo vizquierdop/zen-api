@@ -33,12 +33,16 @@ namespace ZenApi.Application.Models.Auth.RefreshToken
             var newAccessToken = _jwtService.GenerateAccessToken(existingToken.User);
             var newRefreshToken = _jwtService.GenerateRefreshToken(existingToken.User.Id);
 
-            await _refreshTokenRepository.SaveAsync(newRefreshToken, cancellationToken);
-
             existingToken.Revoked = DateTime.UtcNow;
             existingToken.ReplacedByToken = newRefreshToken.Token;
 
-            await _refreshTokenRepository.SaveAsync(existingToken, cancellationToken);
+            await _refreshTokenRepository.AddAsync(newRefreshToken, cancellationToken);
+            await _refreshTokenRepository.UpdateAsync(existingToken, cancellationToken);
+
+            //existingToken.Revoked = DateTime.UtcNow;
+            //existingToken.ReplacedByToken = newRefreshToken.Token;
+
+            //await _refreshTokenRepository.SaveAsync(existingToken, cancellationToken);
 
             return new RefreshTokenResponseDto
             {

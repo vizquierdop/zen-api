@@ -28,6 +28,7 @@ namespace ZenApi.Infrastructure.Repositories
         public async Task<RefreshToken?> GetByTokenAsync(string token, CancellationToken cancellationToken)
         {
             return await _context.RefreshTokens
+                .Include(x => x.User)
                 .FirstOrDefaultAsync(r => r.Token == token, cancellationToken);
         }
 
@@ -38,6 +39,18 @@ namespace ZenApi.Infrastructure.Repositories
 
             refresh.Revoked = DateTime.UtcNow;
 
+            await _context.SaveChangesAsync(cancellationToken);
+        }
+
+        public async Task AddAsync(RefreshToken entity, CancellationToken cancellationToken)
+        {
+            await _context.RefreshTokens.AddAsync(entity, cancellationToken);
+            await _context.SaveChangesAsync(cancellationToken);
+        }
+
+        public async Task UpdateAsync(RefreshToken entity, CancellationToken cancellationToken)
+        {
+            _context.RefreshTokens.Update(entity);
             await _context.SaveChangesAsync(cancellationToken);
         }
     }

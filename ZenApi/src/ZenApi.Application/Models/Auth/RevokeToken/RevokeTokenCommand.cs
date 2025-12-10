@@ -27,7 +27,7 @@ namespace ZenApi.Application.Models.Auth.RevokeToken
                 token.Revoked = DateTime.UtcNow;
                 token.ReplacedByToken = null;
 
-                await _refreshTokenRepository.SaveAsync(token, cancellationToken);
+                await _refreshTokenRepository.UpdateAsync(token, cancellationToken);
             }
         }
     }

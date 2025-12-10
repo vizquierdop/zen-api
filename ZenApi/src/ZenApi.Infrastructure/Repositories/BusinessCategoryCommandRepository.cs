@@ -27,15 +27,14 @@ namespace ZenApi.Infrastructure.Repositories
 
         public async Task DeleteAsync(int categoryId, int businessId, CancellationToken cancellationToken)
         {
-            var entity = await _context.BusinessCategories
-                .FindAsync(new object[] { businessId, categoryId},
-                    cancellationToken);
+            var rowsAffected = await _context.BusinessCategories
+                .Where(x => x.BusinessId == businessId && x.CategoryId == categoryId)
+                .ExecuteDeleteAsync(cancellationToken);
 
-            if (entity is null)
-                throw new Exception("Business-Category not found");
-
-            _context.BusinessCategories.Remove(entity);
-            await _context.SaveChangesAsync(cancellationToken);
+            if (rowsAffected == 0)
+            {
+                throw new Exception("Business-Category relationship not found.");
+            }
         }
     }
 }

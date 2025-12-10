@@ -33,15 +33,20 @@ namespace ZenApi.API.Endpoints
         }
 
         /// <summary>
-        /// Deletes a business-category relation
+        /// Removes a category from a business
         /// </summary>
-        [HttpDelete]
+        [HttpDelete("business/{businessId}/category/{categoryId}")]
         [Authorize(Roles = $"{nameof(UserRole.Business)},{nameof(UserRole.Admin)}")]
-        public async Task<IActionResult> Delete(
-            [FromBody] DeleteBusinessCategoryCommand command,
-            CancellationToken cancellationToken)
+        public async Task<IActionResult> Delete(int businessId, int categoryId, CancellationToken cancellationToken)
         {
+            var command = new DeleteBusinessCategoryCommand
+            {
+                BusinessId = businessId,
+                CategoryId = categoryId
+            };
+
             await _mediator.Send(command, cancellationToken);
+
             return NoContent();
         }
     }

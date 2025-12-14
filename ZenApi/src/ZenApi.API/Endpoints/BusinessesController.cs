@@ -1,7 +1,9 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using ZenApi.Application.Common.Models;
 using ZenApi.Application.Common.Models.SearchModels;
+using ZenApi.Application.Dtos.Businesses;
 using ZenApi.Application.Models.Businesses.Commands.Update;
 using ZenApi.Application.Models.Businesses.Queries.GetAll;
 using ZenApi.Application.Models.Businesses.Queries.GetSingle;
@@ -12,6 +14,7 @@ namespace ZenApi.API.Endpoints
     [ApiController]
     [Route("api/[controller]")]
     [Authorize]
+    [Produces("application/json")]
     public class BusinessesController : ControllerBase
     {
         private readonly IMediator _mediator;
@@ -26,6 +29,7 @@ namespace ZenApi.API.Endpoints
         /// </summary>
         [HttpGet]
         [Authorize]
+        [ProducesResponseType(typeof(PaginatedList<BusinessDto>), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetAll(
             [FromQuery] BusinessSearchModel query,
             CancellationToken cancellationToken)
@@ -38,6 +42,7 @@ namespace ZenApi.API.Endpoints
         /// Returns a business by its ID
         /// </summary>
         [HttpGet("{id:int}")]
+        [ProducesResponseType(typeof(BusinessDto), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetById(int id, CancellationToken cancellationToken)
         {
             var result = await _mediator.Send(new GetSingleBusinessQuery(id), cancellationToken);
@@ -53,6 +58,7 @@ namespace ZenApi.API.Endpoints
         /// </summary>
         [HttpPut("{id:int}")]
         //[Authorize(Roles = $"{nameof(UserRole.Business)},{nameof(UserRole.Admin)}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> Update(
             int id,
             [FromBody] UpdateBusinessCommand command,

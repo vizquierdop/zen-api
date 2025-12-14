@@ -1,7 +1,9 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using ZenApi.Application.Common.Models;
 using ZenApi.Application.Common.Models.SearchModels;
+using ZenApi.Application.Dtos.OfferedServices;
 using ZenApi.Application.Models.OfferedServices.Commands.Create;
 using ZenApi.Application.Models.OfferedServices.Commands.Delete;
 using ZenApi.Application.Models.OfferedServices.Commands.Update;
@@ -14,6 +16,7 @@ namespace ZenApi.API.Endpoints
     [ApiController]
     [Route("api/[controller]")]
     [Authorize]
+    [Produces("application/json")]
     public class OfferedServicesController : ControllerBase
     {
         private readonly IMediator _mediator;
@@ -27,6 +30,7 @@ namespace ZenApi.API.Endpoints
         /// Returns all offered services
         /// </summary>
         [HttpGet]
+        [ProducesResponseType(typeof(PaginatedList<OfferedServiceDto>), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetAll(
             [FromQuery] OfferedServiceSearchModel query,
             CancellationToken cancellationToken)
@@ -39,6 +43,7 @@ namespace ZenApi.API.Endpoints
         /// Returns an offered service by its ID
         /// </summary>
         [HttpGet("{id:int}")]
+        [ProducesResponseType(typeof(OfferedServiceDto), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetById(int id, CancellationToken cancellationToken)
         {
             var result = await _mediator.Send(new GetSingleOfferedServiceQuery(id), cancellationToken);
@@ -50,6 +55,7 @@ namespace ZenApi.API.Endpoints
         /// </summary>
         [HttpPost]
         [Authorize(Roles = $"{nameof(UserRole.Business)},{nameof(UserRole.Admin)}")]
+        [ProducesResponseType(typeof(int), StatusCodes.Status200OK)]
         public async Task<int> Create(
             [FromBody] CreateOfferedServiceCommand command,
             CancellationToken cancellationToken)
@@ -63,6 +69,7 @@ namespace ZenApi.API.Endpoints
         /// </summary>
         [HttpPut("{id:int}")]
         [Authorize(Roles = $"{nameof(UserRole.Business)},{nameof(UserRole.Admin)}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> Update(
             int id,
             [FromBody] UpdateOfferedServiceCommand command,
@@ -80,6 +87,7 @@ namespace ZenApi.API.Endpoints
         /// </summary>
         [HttpDelete("{id:int}")]
         [Authorize(Roles = $"{nameof(UserRole.Business)},{nameof(UserRole.Admin)}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> Delete(int id, CancellationToken cancellationToken)
         {
             await _mediator.Send(new DeleteOfferedServiceCommand(id), cancellationToken);

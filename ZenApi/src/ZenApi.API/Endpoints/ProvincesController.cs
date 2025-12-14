@@ -13,6 +13,7 @@ namespace ZenApi.API.Endpoints
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Produces("application/json")]
     public class ProvincesController : ControllerBase
     {
         private readonly IMediator _mediator;
@@ -26,6 +27,7 @@ namespace ZenApi.API.Endpoints
         /// Returns all provinces.
         /// </summary>
         [HttpGet]
+        [ProducesResponseType(typeof(PaginatedList<ProvinceDto>), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetAll(
             [FromQuery] ProvinceSearchModel query,
             CancellationToken cancellationToken)

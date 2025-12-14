@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using ZenApi.Application.Dtos.Users;
 using ZenApi.Application.Models.Users.Commands.Create;
 using ZenApi.Application.Models.Users.Commands.Update;
 using ZenApi.Application.Models.Users.Queries.GetSingle;
@@ -9,6 +10,7 @@ namespace ZenApi.API.Endpoints
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Produces("application/json")]
     public class UsersController : ControllerBase
     {
         private readonly IMediator _mediator;
@@ -23,6 +25,7 @@ namespace ZenApi.API.Endpoints
         /// </summary>
         [HttpGet("{id:int}")]
         [Authorize]
+        [ProducesResponseType(typeof(UserDto), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetById(int id, CancellationToken cancellationToken)
         {
             var result = await _mediator.Send(new GetSingleUserQuery(id), cancellationToken);
@@ -37,6 +40,7 @@ namespace ZenApi.API.Endpoints
         /// Creates a new user
         /// </summary>
         [HttpPost]
+        [ProducesResponseType(typeof(int), StatusCodes.Status200OK)]
         public async Task<int> Create(
             [FromBody] CreateUserCommand command,
             CancellationToken cancellationToken)
@@ -50,6 +54,7 @@ namespace ZenApi.API.Endpoints
         /// </summary>
         [HttpPut("{id:int}")]
         [Authorize]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> Update(
             int id,
             [FromBody] UpdateUserCommand command,

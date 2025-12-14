@@ -10,6 +10,7 @@ namespace ZenApi.API.Endpoints
     [ApiController]
     [Route("api/[controller]")]
     [Authorize]
+    [Produces("application/json")]
     public class BusinessCategoriesController : ControllerBase
     {
         private readonly IMediator _mediator;
@@ -23,6 +24,7 @@ namespace ZenApi.API.Endpoints
         /// Creates a new business-category relation
         /// </summary>
         [HttpPost]
+        [ProducesResponseType(typeof(int), StatusCodes.Status200OK)]
         [Authorize(Roles = $"{nameof(UserRole.Business)},{nameof(UserRole.Admin)}")]
         public async Task<IActionResult> Create(
             [FromBody] CreateBusinessCategoryCommand command,
@@ -37,6 +39,7 @@ namespace ZenApi.API.Endpoints
         /// </summary>
         [HttpDelete("business/{businessId}/category/{categoryId}")]
         [Authorize(Roles = $"{nameof(UserRole.Business)},{nameof(UserRole.Admin)}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> Delete(int businessId, int categoryId, CancellationToken cancellationToken)
         {
             var command = new DeleteBusinessCategoryCommand

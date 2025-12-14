@@ -1,7 +1,9 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using ZenApi.Application.Common.Models;
 using ZenApi.Application.Common.Models.SearchModels;
+using ZenApi.Application.Dtos.Reservations;
 using ZenApi.Application.Models.Reservations.Commands.Create;
 using ZenApi.Application.Models.Reservations.Commands.Delete;
 using ZenApi.Application.Models.Reservations.Commands.Update;
@@ -12,6 +14,7 @@ namespace ZenApi.API.Endpoints
     [ApiController]
     [Route("api/[controller]")]
     [Authorize]
+    [Produces("application/json")]
     public class ReservationsController : ControllerBase
     {
         private readonly IMediator _mediator;
@@ -25,6 +28,7 @@ namespace ZenApi.API.Endpoints
         /// Returns all reservations
         /// </summary>
         [HttpGet]
+        [ProducesResponseType(typeof(PaginatedList<ReservationDto>), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetAll(
             [FromQuery] ReservationSearchModel query,
             CancellationToken cancellationToken)
@@ -37,6 +41,7 @@ namespace ZenApi.API.Endpoints
         /// Creates a new reservation
         /// </summary>
         [HttpPost]
+        [ProducesResponseType(typeof(int), StatusCodes.Status200OK)]
         public async Task<int> Create(
             [FromBody] CreateReservationCommand command,
             CancellationToken cancellationToken)
@@ -49,6 +54,7 @@ namespace ZenApi.API.Endpoints
         /// Updates a reservation
         /// </summary>
         [HttpPut("{id:int}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> Update(
             int id,
             [FromBody] UpdateReservationCommand command,
@@ -65,6 +71,7 @@ namespace ZenApi.API.Endpoints
         /// Deletes a reservation
         /// </summary>
         [HttpDelete("{id:int}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> Delete(int id, CancellationToken cancellationToken)
         {
             await _mediator.Send(new DeleteReservationCommand(id), cancellationToken);

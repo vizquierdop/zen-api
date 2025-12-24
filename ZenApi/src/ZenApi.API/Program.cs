@@ -92,7 +92,7 @@ app.UseCors(AllowedHosts);
 
 // Configure the HTTP request pipeline.
 //if (app.Environment.IsDevelopment())
-{
+//{
     //app.MapOpenApi();
 
     app.UseOpenApi();

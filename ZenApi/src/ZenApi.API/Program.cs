@@ -91,7 +91,7 @@ var app = builder.Build();
 app.UseCors(AllowedHosts);
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+//if (app.Environment.IsDevelopment())
 {
     //app.MapOpenApi();
 
@@ -102,7 +102,7 @@ if (app.Environment.IsDevelopment())
         settings.Path = "/swagger";
         settings.DocumentPath = "/swagger/v1/swagger.json";
     });
-}
+//}
 
 
 app.UseHttpsRedirection();

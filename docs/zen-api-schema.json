@@ -1,0 +1,2692 @@
+{
+  "x-generator": "NSwag v14.6.3.0 (NJsonSchema v11.5.2.0 (Newtonsoft.Json v13.0.0.0))",
+  "swagger": "2.0",
+  "info": {
+    "title": "ZenApi v1",
+    "version": "1.0.0"
+  },
+  "host": "51.94.220.58:5000",
+  "schemes": [
+    "http"
+  ],
+  "paths": {
+    "/api/Auth/login": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "operationId": "Auth_Login",
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "command",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/LoginCommand"
+            },
+            "x-nullable": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": false,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/LoginResultDto"
+            }
+          }
+        }
+      }
+    },
+    "/api/Auth/refresh": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "operationId": "Auth_Refresh",
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "request",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/RefreshTokenRequestDto"
+            },
+            "x-nullable": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": false,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/RefreshTokenResponseDto"
+            }
+          }
+        }
+      }
+    },
+    "/api/Auth/logout": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "operationId": "Auth_Logout",
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "parameters": [
+          {
+            "name": "request",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/RefreshTokenRequestDto"
+            },
+            "x-nullable": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/api/Availabilities": {
+      "get": {
+        "tags": [
+          "Availabilities"
+        ],
+        "operationId": "Availabilities_GetAll",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "BusinessId",
+            "in": "query",
+            "format": "int32",
+            "x-nullable": false
+          },
+          {
+            "type": "integer",
+            "name": "PaginationSkip",
+            "in": "query",
+            "format": "int32",
+            "x-nullable": true
+          },
+          {
+            "type": "integer",
+            "name": "PaginationLength",
+            "in": "query",
+            "format": "int32",
+            "x-nullable": true
+          },
+          {
+            "type": "string",
+            "name": "OrderBy",
+            "in": "query",
+            "x-nullable": true
+          },
+          {
+            "type": "integer",
+            "name": "OrderDirection",
+            "in": "query",
+            "x-schema": {
+              "$ref": "#/definitions/DtOrderDir"
+            },
+            "x-nullable": true,
+            "enum": [
+              0,
+              1
+            ]
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": false,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/PaginatedListOfAvailabilityDto"
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      }
+    },
+    "/api/Availabilities/{id}": {
+      "put": {
+        "tags": [
+          "Availabilities"
+        ],
+        "operationId": "Availabilities_Update",
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "format": "int32",
+            "x-nullable": false
+          },
+          {
+            "name": "command",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UpdateAvailabilityCommand"
+            },
+            "x-nullable": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "JWT": [
+              "Business",
+              "Admin"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/Availabilities/business/{businessId}": {
+      "put": {
+        "tags": [
+          "Availabilities"
+        ],
+        "operationId": "Availabilities_UpdateBulk",
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "businessId",
+            "in": "path",
+            "required": true,
+            "format": "int32",
+            "x-nullable": false
+          },
+          {
+            "name": "command",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/BulkUpdateAvailabilitiesCommand"
+            },
+            "x-nullable": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "JWT": [
+              "Business",
+              "Admin"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/BusinessCategories": {
+      "post": {
+        "tags": [
+          "BusinessCategories"
+        ],
+        "operationId": "BusinessCategories_Create",
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "command",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CreateBusinessCategoryCommand"
+            },
+            "x-nullable": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": false,
+            "description": "",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT": [
+              "Business",
+              "Admin"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/BusinessCategories/business/{businessId}/category/{categoryId}": {
+      "delete": {
+        "tags": [
+          "BusinessCategories"
+        ],
+        "operationId": "BusinessCategories_Delete",
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "businessId",
+            "in": "path",
+            "required": true,
+            "format": "int32",
+            "x-nullable": false
+          },
+          {
+            "type": "integer",
+            "name": "categoryId",
+            "in": "path",
+            "required": true,
+            "format": "int32",
+            "x-nullable": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "JWT": [
+              "Business",
+              "Admin"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/Businesses": {
+      "get": {
+        "tags": [
+          "Businesses"
+        ],
+        "operationId": "Businesses_GetAll",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "type": "string",
+            "name": "CategoryIds",
+            "in": "query",
+            "x-nullable": true
+          },
+          {
+            "type": "string",
+            "name": "Name",
+            "in": "query",
+            "x-nullable": true
+          },
+          {
+            "type": "boolean",
+            "name": "IsActive",
+            "in": "query",
+            "x-nullable": true
+          },
+          {
+            "type": "integer",
+            "name": "ProvinceId",
+            "in": "query",
+            "format": "int32",
+            "x-nullable": true
+          },
+          {
+            "type": "integer",
+            "name": "PaginationSkip",
+            "in": "query",
+            "format": "int32",
+            "x-nullable": true
+          },
+          {
+            "type": "integer",
+            "name": "PaginationLength",
+            "in": "query",
+            "format": "int32",
+            "x-nullable": true
+          },
+          {
+            "type": "string",
+            "name": "OrderBy",
+            "in": "query",
+            "x-nullable": true
+          },
+          {
+            "type": "integer",
+            "name": "OrderDirection",
+            "in": "query",
+            "x-schema": {
+              "$ref": "#/definitions/DtOrderDir"
+            },
+            "x-nullable": true,
+            "enum": [
+              0,
+              1
+            ]
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": false,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/PaginatedListOfBusinessDto"
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      }
+    },
+    "/api/Businesses/{id}": {
+      "get": {
+        "tags": [
+          "Businesses"
+        ],
+        "operationId": "Businesses_GetById",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "format": "int32",
+            "x-nullable": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": false,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/BusinessDto"
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "Businesses"
+        ],
+        "operationId": "Businesses_Update",
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "format": "int32",
+            "x-nullable": false
+          },
+          {
+            "name": "command",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UpdateBusinessCommand"
+            },
+            "x-nullable": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      }
+    },
+    "/api/Categories": {
+      "get": {
+        "tags": [
+          "Categories"
+        ],
+        "operationId": "Categories_GetAll",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "type": "string",
+            "name": "Search",
+            "in": "query",
+            "x-nullable": true
+          },
+          {
+            "type": "string",
+            "name": "Name",
+            "in": "query",
+            "x-nullable": true
+          },
+          {
+            "type": "integer",
+            "name": "PaginationSkip",
+            "in": "query",
+            "format": "int32",
+            "x-nullable": true
+          },
+          {
+            "type": "integer",
+            "name": "PaginationLength",
+            "in": "query",
+            "format": "int32",
+            "x-nullable": true
+          },
+          {
+            "type": "string",
+            "name": "OrderBy",
+            "in": "query",
+            "x-nullable": true
+          },
+          {
+            "type": "integer",
+            "name": "OrderDirection",
+            "in": "query",
+            "x-schema": {
+              "$ref": "#/definitions/DtOrderDir"
+            },
+            "x-nullable": true,
+            "enum": [
+              0,
+              1
+            ]
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": false,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/PaginatedListOfCategoryDto"
+            }
+          }
+        }
+      }
+    },
+    "/api/Holidays": {
+      "get": {
+        "tags": [
+          "Holidays"
+        ],
+        "operationId": "Holidays_GetAll",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "BusinessId",
+            "in": "query",
+            "format": "int32",
+            "x-nullable": false
+          },
+          {
+            "type": "string",
+            "name": "StartDate",
+            "in": "query",
+            "format": "date-time",
+            "x-nullable": true
+          },
+          {
+            "type": "string",
+            "name": "EndDate",
+            "in": "query",
+            "format": "date-time",
+            "x-nullable": true
+          },
+          {
+            "type": "integer",
+            "name": "PaginationSkip",
+            "in": "query",
+            "format": "int32",
+            "x-nullable": true
+          },
+          {
+            "type": "integer",
+            "name": "PaginationLength",
+            "in": "query",
+            "format": "int32",
+            "x-nullable": true
+          },
+          {
+            "type": "string",
+            "name": "OrderBy",
+            "in": "query",
+            "x-nullable": true
+          },
+          {
+            "type": "integer",
+            "name": "OrderDirection",
+            "in": "query",
+            "x-schema": {
+              "$ref": "#/definitions/DtOrderDir"
+            },
+            "x-nullable": true,
+            "enum": [
+              0,
+              1
+            ]
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": false,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/PaginatedListOfHolidayDto"
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "Holidays"
+        ],
+        "operationId": "Holidays_Create",
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "command",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CreateHolidayCommand"
+            },
+            "x-nullable": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": false,
+            "description": "",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT": [
+              "Business",
+              "Admin"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/Holidays/{id}": {
+      "delete": {
+        "tags": [
+          "Holidays"
+        ],
+        "operationId": "Holidays_Delete",
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "format": "int32",
+            "x-nullable": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "JWT": [
+              "Business",
+              "Admin"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/OfferedServices": {
+      "get": {
+        "tags": [
+          "OfferedServices"
+        ],
+        "operationId": "OfferedServices_GetAll",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "BusinessId",
+            "in": "query",
+            "format": "int32",
+            "x-nullable": true
+          },
+          {
+            "type": "string",
+            "name": "Search",
+            "in": "query",
+            "x-nullable": true
+          },
+          {
+            "type": "string",
+            "name": "Name",
+            "in": "query",
+            "x-nullable": true
+          },
+          {
+            "type": "integer",
+            "name": "Duration",
+            "in": "query",
+            "format": "int32",
+            "x-nullable": true
+          },
+          {
+            "type": "number",
+            "name": "Price",
+            "in": "query",
+            "format": "decimal",
+            "x-nullable": true
+          },
+          {
+            "type": "boolean",
+            "name": "IsActive",
+            "in": "query",
+            "x-nullable": true
+          },
+          {
+            "type": "integer",
+            "name": "ProvinceId",
+            "in": "query",
+            "format": "int32",
+            "x-nullable": true
+          },
+          {
+            "type": "integer",
+            "name": "PaginationSkip",
+            "in": "query",
+            "format": "int32",
+            "x-nullable": true
+          },
+          {
+            "type": "integer",
+            "name": "PaginationLength",
+            "in": "query",
+            "format": "int32",
+            "x-nullable": true
+          },
+          {
+            "type": "string",
+            "name": "OrderBy",
+            "in": "query",
+            "x-nullable": true
+          },
+          {
+            "type": "integer",
+            "name": "OrderDirection",
+            "in": "query",
+            "x-schema": {
+              "$ref": "#/definitions/DtOrderDir"
+            },
+            "x-nullable": true,
+            "enum": [
+              0,
+              1
+            ]
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": false,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/PaginatedListOfOfferedServiceDto"
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "OfferedServices"
+        ],
+        "operationId": "OfferedServices_Create",
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "command",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CreateOfferedServiceCommand"
+            },
+            "x-nullable": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": false,
+            "description": "",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT": [
+              "Business",
+              "Admin"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/OfferedServices/{id}": {
+      "get": {
+        "tags": [
+          "OfferedServices"
+        ],
+        "operationId": "OfferedServices_GetById",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "format": "int32",
+            "x-nullable": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": false,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/OfferedServiceDto"
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "OfferedServices"
+        ],
+        "operationId": "OfferedServices_Update",
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "format": "int32",
+            "x-nullable": false
+          },
+          {
+            "name": "command",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UpdateOfferedServiceCommand"
+            },
+            "x-nullable": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "JWT": [
+              "Business",
+              "Admin"
+            ]
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "OfferedServices"
+        ],
+        "operationId": "OfferedServices_Delete",
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "format": "int32",
+            "x-nullable": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "JWT": [
+              "Business",
+              "Admin"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/Provinces": {
+      "get": {
+        "tags": [
+          "Provinces"
+        ],
+        "operationId": "Provinces_GetAll",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "type": "string",
+            "name": "Name",
+            "in": "query",
+            "x-nullable": true
+          },
+          {
+            "type": "integer",
+            "name": "PaginationSkip",
+            "in": "query",
+            "format": "int32",
+            "x-nullable": true
+          },
+          {
+            "type": "integer",
+            "name": "PaginationLength",
+            "in": "query",
+            "format": "int32",
+            "x-nullable": true
+          },
+          {
+            "type": "string",
+            "name": "OrderBy",
+            "in": "query",
+            "x-nullable": true
+          },
+          {
+            "type": "integer",
+            "name": "OrderDirection",
+            "in": "query",
+            "x-schema": {
+              "$ref": "#/definitions/DtOrderDir"
+            },
+            "x-nullable": true,
+            "enum": [
+              0,
+              1
+            ]
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": false,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/PaginatedListOfProvinceDto"
+            }
+          }
+        }
+      }
+    },
+    "/api/Reservations": {
+      "get": {
+        "tags": [
+          "Reservations"
+        ],
+        "operationId": "Reservations_GetAll",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "UserId",
+            "in": "query",
+            "format": "int32",
+            "x-nullable": true
+          },
+          {
+            "type": "integer",
+            "name": "BusinessId",
+            "in": "query",
+            "format": "int32",
+            "x-nullable": true
+          },
+          {
+            "type": "string",
+            "name": "Search",
+            "in": "query",
+            "x-nullable": true
+          },
+          {
+            "type": "string",
+            "name": "CustomerName",
+            "in": "query",
+            "x-nullable": true
+          },
+          {
+            "type": "string",
+            "name": "CustomerPhone",
+            "in": "query",
+            "x-nullable": true
+          },
+          {
+            "type": "string",
+            "name": "CustomerEmail",
+            "in": "query",
+            "x-nullable": true
+          },
+          {
+            "type": "string",
+            "name": "StartDate",
+            "in": "query",
+            "format": "date-time",
+            "x-nullable": true
+          },
+          {
+            "type": "string",
+            "name": "EndDate",
+            "in": "query",
+            "format": "date-time",
+            "x-nullable": true
+          },
+          {
+            "type": "string",
+            "name": "StartTime",
+            "in": "query",
+            "x-nullable": true
+          },
+          {
+            "type": "string",
+            "name": "EndTime",
+            "in": "query",
+            "x-nullable": true
+          },
+          {
+            "type": "string",
+            "name": "StatusTypes",
+            "in": "query",
+            "x-nullable": true
+          },
+          {
+            "type": "string",
+            "name": "ServiceIds",
+            "in": "query",
+            "x-nullable": true
+          },
+          {
+            "type": "integer",
+            "name": "PaginationSkip",
+            "in": "query",
+            "format": "int32",
+            "x-nullable": true
+          },
+          {
+            "type": "integer",
+            "name": "PaginationLength",
+            "in": "query",
+            "format": "int32",
+            "x-nullable": true
+          },
+          {
+            "type": "string",
+            "name": "OrderBy",
+            "in": "query",
+            "x-nullable": true
+          },
+          {
+            "type": "integer",
+            "name": "OrderDirection",
+            "in": "query",
+            "x-schema": {
+              "$ref": "#/definitions/DtOrderDir"
+            },
+            "x-nullable": true,
+            "enum": [
+              0,
+              1
+            ]
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": false,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/PaginatedListOfReservationDto"
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "Reservations"
+        ],
+        "operationId": "Reservations_Create",
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "command",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CreateReservationCommand"
+            },
+            "x-nullable": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": false,
+            "description": "",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      }
+    },
+    "/api/Reservations/{id}": {
+      "put": {
+        "tags": [
+          "Reservations"
+        ],
+        "operationId": "Reservations_Update",
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "format": "int32",
+            "x-nullable": false
+          },
+          {
+            "name": "command",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UpdateReservationCommand"
+            },
+            "x-nullable": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "Reservations"
+        ],
+        "operationId": "Reservations_Delete",
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "format": "int32",
+            "x-nullable": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      }
+    },
+    "/api/Users/{id}": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "operationId": "Users_GetById",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "format": "int32",
+            "x-nullable": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": false,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/UserDto"
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "Users"
+        ],
+        "operationId": "Users_Update",
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "format": "int32",
+            "x-nullable": false
+          },
+          {
+            "name": "command",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UpdateUserCommand"
+            },
+            "x-nullable": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      }
+    },
+    "/api/Users": {
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "operationId": "Users_Create",
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "command",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CreateUserCommand"
+            },
+            "x-nullable": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": false,
+            "description": "",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "LoginResultDto": {
+      "type": "object",
+      "required": [
+        "accessToken",
+        "accessTokenExpiresAt",
+        "refreshToken",
+        "refreshTokenExpiresAt",
+        "userId",
+        "email",
+        "role"
+      ],
+      "properties": {
+        "accessToken": {
+          "type": "string"
+        },
+        "accessTokenExpiresAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "refreshToken": {
+          "type": "string"
+        },
+        "refreshTokenExpiresAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "userId": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "email": {
+          "type": "string"
+        },
+        "role": {
+          "$ref": "#/definitions/UserRole"
+        },
+        "businessId": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "UserRole": {
+      "type": "integer",
+      "description": "",
+      "x-enumNames": [
+        "Customer",
+        "Business",
+        "Admin"
+      ],
+      "enum": [
+        0,
+        1,
+        2
+      ]
+    },
+    "LoginCommand": {
+      "type": "object",
+      "required": [
+        "email",
+        "password"
+      ],
+      "properties": {
+        "email": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        }
+      }
+    },
+    "RefreshTokenResponseDto": {
+      "type": "object",
+      "required": [
+        "accessToken",
+        "accessTokenExpiresAt",
+        "refreshToken",
+        "refreshTokenExpiresAt"
+      ],
+      "properties": {
+        "accessToken": {
+          "type": "string"
+        },
+        "accessTokenExpiresAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "refreshToken": {
+          "type": "string"
+        },
+        "refreshTokenExpiresAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "RefreshTokenRequestDto": {
+      "type": "object",
+      "required": [
+        "token"
+      ],
+      "properties": {
+        "token": {
+          "type": "string"
+        }
+      }
+    },
+    "PaginatedListOfAvailabilityDto": {
+      "type": "object",
+      "required": [
+        "items",
+        "pageNumber",
+        "totalPages",
+        "totalCount",
+        "hasPreviousPage",
+        "hasNextPage"
+      ],
+      "properties": {
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/AvailabilityDto"
+          }
+        },
+        "pageNumber": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "totalPages": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "totalCount": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "hasPreviousPage": {
+          "type": "boolean"
+        },
+        "hasNextPage": {
+          "type": "boolean"
+        }
+      }
+    },
+    "AvailabilityDto": {
+      "type": "object",
+      "required": [
+        "id",
+        "dayOfWeek",
+        "isActive",
+        "businessId"
+      ],
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "dayOfWeek": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "slot1Start": {
+          "type": "string"
+        },
+        "slot1End": {
+          "type": "string"
+        },
+        "slot2Start": {
+          "type": "string"
+        },
+        "slot2End": {
+          "type": "string"
+        },
+        "isActive": {
+          "type": "boolean"
+        },
+        "businessId": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "DtOrderDir": {
+      "type": "integer",
+      "description": "",
+      "x-enumNames": [
+        "Asc",
+        "Desc"
+      ],
+      "enum": [
+        0,
+        1
+      ]
+    },
+    "UpdateAvailabilityCommand": {
+      "type": "object",
+      "required": [
+        "id",
+        "isActive"
+      ],
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "isActive": {
+          "type": "boolean"
+        },
+        "slot1Start": {
+          "type": "string"
+        },
+        "slot1End": {
+          "type": "string"
+        },
+        "slot2Start": {
+          "type": "string"
+        },
+        "slot2End": {
+          "type": "string"
+        }
+      }
+    },
+    "BulkUpdateAvailabilitiesCommand": {
+      "type": "object",
+      "required": [
+        "businessId",
+        "availabilities"
+      ],
+      "properties": {
+        "businessId": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "availabilities": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/BulkUpdateAvailabilitiesDto"
+          }
+        }
+      }
+    },
+    "BulkUpdateAvailabilitiesDto": {
+      "type": "object",
+      "required": [
+        "id",
+        "dayOfWeek",
+        "isActive"
+      ],
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "dayOfWeek": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "isActive": {
+          "type": "boolean"
+        },
+        "slot1Start": {
+          "type": "string"
+        },
+        "slot1End": {
+          "type": "string"
+        },
+        "slot2Start": {
+          "type": "string"
+        },
+        "slot2End": {
+          "type": "string"
+        }
+      }
+    },
+    "CreateBusinessCategoryCommand": {
+      "type": "object",
+      "required": [
+        "businessId",
+        "categoryId"
+      ],
+      "properties": {
+        "businessId": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "categoryId": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "PaginatedListOfBusinessDto": {
+      "type": "object",
+      "required": [
+        "items",
+        "pageNumber",
+        "totalPages",
+        "totalCount",
+        "hasPreviousPage",
+        "hasNextPage"
+      ],
+      "properties": {
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/BusinessDto"
+          }
+        },
+        "pageNumber": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "totalPages": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "totalCount": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "hasPreviousPage": {
+          "type": "boolean"
+        },
+        "hasNextPage": {
+          "type": "boolean"
+        }
+      }
+    },
+    "BusinessDto": {
+      "type": "object",
+      "required": [
+        "id",
+        "name",
+        "address",
+        "phone",
+        "simultaneousBookings",
+        "isActive",
+        "userId",
+        "provinceId",
+        "province",
+        "user",
+        "availabilities",
+        "offeredServices",
+        "holidays",
+        "categories"
+      ],
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "address": {
+          "type": "string"
+        },
+        "photo": {
+          "type": "string"
+        },
+        "phone": {
+          "type": "string"
+        },
+        "simultaneousBookings": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "isActive": {
+          "type": "boolean"
+        },
+        "keyword1": {
+          "type": "string"
+        },
+        "keyword2": {
+          "type": "string"
+        },
+        "keyword3": {
+          "type": "string"
+        },
+        "instagramUser": {
+          "type": "string"
+        },
+        "xUser": {
+          "type": "string"
+        },
+        "tikTokUser": {
+          "type": "string"
+        },
+        "facebookUser": {
+          "type": "string"
+        },
+        "googleMaps": {
+          "type": "string"
+        },
+        "userId": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "provinceId": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "province": {
+          "$ref": "#/definitions/ProvinceDto"
+        },
+        "user": {
+          "$ref": "#/definitions/UserForBusinessDto"
+        },
+        "availabilities": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/AvailabilityDto"
+          }
+        },
+        "offeredServices": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/OfferedServiceDto"
+          }
+        },
+        "holidays": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/HolidayDto"
+          }
+        },
+        "categories": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CategoryDto"
+          }
+        }
+      }
+    },
+    "ProvinceDto": {
+      "type": "object",
+      "required": [
+        "id",
+        "name"
+      ],
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "name": {
+          "type": "string"
+        }
+      }
+    },
+    "UserForBusinessDto": {
+      "type": "object",
+      "required": [
+        "id",
+        "email",
+        "firstName"
+      ],
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "email": {
+          "type": "string"
+        },
+        "firstName": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        },
+        "phone": {
+          "type": "string"
+        }
+      }
+    },
+    "OfferedServiceDto": {
+      "type": "object",
+      "required": [
+        "id",
+        "name",
+        "price",
+        "isActive",
+        "businessId"
+      ],
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "duration": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "price": {
+          "type": "number",
+          "format": "decimal"
+        },
+        "isActive": {
+          "type": "boolean"
+        },
+        "businessId": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "business": {
+          "$ref": "#/definitions/BusinessShortDto"
+        }
+      }
+    },
+    "BusinessShortDto": {
+      "type": "object",
+      "required": [
+        "id",
+        "name"
+      ],
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "name": {
+          "type": "string"
+        },
+        "address": {
+          "type": "string"
+        }
+      }
+    },
+    "HolidayDto": {
+      "type": "object",
+      "required": [
+        "id",
+        "businessId"
+      ],
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "startDate": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "endDate": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "businessId": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "CategoryDto": {
+      "type": "object",
+      "required": [
+        "id"
+      ],
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "name": {
+          "type": "string"
+        }
+      }
+    },
+    "UpdateBusinessCommand": {
+      "type": "object",
+      "required": [
+        "id",
+        "name",
+        "address",
+        "provinceId",
+        "phone",
+        "simultaneousBookings"
+      ],
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "address": {
+          "type": "string"
+        },
+        "provinceId": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "photo": {
+          "type": "string"
+        },
+        "keyword1": {
+          "type": "string"
+        },
+        "keyword2": {
+          "type": "string"
+        },
+        "keyword3": {
+          "type": "string"
+        },
+        "phone": {
+          "type": "string"
+        },
+        "simultaneousBookings": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "isActive": {
+          "type": "boolean"
+        },
+        "instagramUser": {
+          "type": "string"
+        },
+        "xUser": {
+          "type": "string"
+        },
+        "tikTokUser": {
+          "type": "string"
+        },
+        "facebookUser": {
+          "type": "string"
+        },
+        "googleMaps": {
+          "type": "string"
+        }
+      }
+    },
+    "PaginatedListOfCategoryDto": {
+      "type": "object",
+      "required": [
+        "items",
+        "pageNumber",
+        "totalPages",
+        "totalCount",
+        "hasPreviousPage",
+        "hasNextPage"
+      ],
+      "properties": {
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CategoryDto"
+          }
+        },
+        "pageNumber": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "totalPages": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "totalCount": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "hasPreviousPage": {
+          "type": "boolean"
+        },
+        "hasNextPage": {
+          "type": "boolean"
+        }
+      }
+    },
+    "PaginatedListOfHolidayDto": {
+      "type": "object",
+      "required": [
+        "items",
+        "pageNumber",
+        "totalPages",
+        "totalCount",
+        "hasPreviousPage",
+        "hasNextPage"
+      ],
+      "properties": {
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/HolidayDto"
+          }
+        },
+        "pageNumber": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "totalPages": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "totalCount": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "hasPreviousPage": {
+          "type": "boolean"
+        },
+        "hasNextPage": {
+          "type": "boolean"
+        }
+      }
+    },
+    "CreateHolidayCommand": {
+      "type": "object",
+      "required": [
+        "startDate",
+        "endDate",
+        "businessId"
+      ],
+      "properties": {
+        "startDate": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "endDate": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "businessId": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "PaginatedListOfOfferedServiceDto": {
+      "type": "object",
+      "required": [
+        "items",
+        "pageNumber",
+        "totalPages",
+        "totalCount",
+        "hasPreviousPage",
+        "hasNextPage"
+      ],
+      "properties": {
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/OfferedServiceDto"
+          }
+        },
+        "pageNumber": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "totalPages": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "totalCount": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "hasPreviousPage": {
+          "type": "boolean"
+        },
+        "hasNextPage": {
+          "type": "boolean"
+        }
+      }
+    },
+    "CreateOfferedServiceCommand": {
+      "type": "object",
+      "required": [
+        "name",
+        "price",
+        "businessId"
+      ],
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "duration": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "price": {
+          "type": "number",
+          "format": "decimal"
+        },
+        "businessId": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "UpdateOfferedServiceCommand": {
+      "type": "object",
+      "required": [
+        "id"
+      ],
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "duration": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "price": {
+          "type": "number",
+          "format": "decimal"
+        },
+        "isActive": {
+          "type": "boolean"
+        }
+      }
+    },
+    "PaginatedListOfProvinceDto": {
+      "type": "object",
+      "required": [
+        "items",
+        "pageNumber",
+        "totalPages",
+        "totalCount",
+        "hasPreviousPage",
+        "hasNextPage"
+      ],
+      "properties": {
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ProvinceDto"
+          }
+        },
+        "pageNumber": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "totalPages": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "totalCount": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "hasPreviousPage": {
+          "type": "boolean"
+        },
+        "hasNextPage": {
+          "type": "boolean"
+        }
+      }
+    },
+    "PaginatedListOfReservationDto": {
+      "type": "object",
+      "required": [
+        "items",
+        "pageNumber",
+        "totalPages",
+        "totalCount",
+        "hasPreviousPage",
+        "hasNextPage"
+      ],
+      "properties": {
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ReservationDto"
+          }
+        },
+        "pageNumber": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "totalPages": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "totalCount": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "hasPreviousPage": {
+          "type": "boolean"
+        },
+        "hasNextPage": {
+          "type": "boolean"
+        }
+      }
+    },
+    "ReservationDto": {
+      "type": "object",
+      "required": [
+        "id",
+        "date",
+        "startTime",
+        "endTime",
+        "status",
+        "serviceId",
+        "service"
+      ],
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "date": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "startTime": {
+          "type": "string"
+        },
+        "endTime": {
+          "type": "string"
+        },
+        "status": {
+          "$ref": "#/definitions/ReservationStatus"
+        },
+        "customerName": {
+          "type": "string"
+        },
+        "customerEmail": {
+          "type": "string"
+        },
+        "customerPhone": {
+          "type": "string"
+        },
+        "serviceId": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "service": {
+          "$ref": "#/definitions/OfferedServiceDto"
+        },
+        "userId": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "user": {
+          "$ref": "#/definitions/UserShortDto"
+        }
+      }
+    },
+    "ReservationStatus": {
+      "type": "integer",
+      "description": "",
+      "x-enumNames": [
+        "Pending",
+        "Accepted",
+        "Cancelled",
+        "Completed"
+      ],
+      "enum": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    "UserShortDto": {
+      "type": "object",
+      "required": [
+        "id",
+        "firstName",
+        "role",
+        "isActive"
+      ],
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "email": {
+          "type": "string"
+        },
+        "firstName": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        },
+        "phone": {
+          "type": "string"
+        },
+        "role": {
+          "$ref": "#/definitions/UserRole"
+        },
+        "isActive": {
+          "type": "boolean"
+        }
+      }
+    },
+    "CreateReservationCommand": {
+      "type": "object",
+      "required": [
+        "date",
+        "startTime",
+        "endTime",
+        "serviceId"
+      ],
+      "properties": {
+        "date": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "startTime": {
+          "type": "string"
+        },
+        "endTime": {
+          "type": "string"
+        },
+        "customerName": {
+          "type": "string"
+        },
+        "customerEmail": {
+          "type": "string"
+        },
+        "customerPhone": {
+          "type": "string"
+        },
+        "serviceId": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "userId": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "UpdateReservationCommand": {
+      "type": "object",
+      "required": [
+        "id",
+        "date",
+        "startTime",
+        "endTime",
+        "serviceId"
+      ],
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "date": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "startTime": {
+          "type": "string"
+        },
+        "endTime": {
+          "type": "string"
+        },
+        "customerName": {
+          "type": "string"
+        },
+        "customerEmail": {
+          "type": "string"
+        },
+        "customerPhone": {
+          "type": "string"
+        },
+        "serviceId": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "status": {
+          "$ref": "#/definitions/ReservationStatus"
+        }
+      }
+    },
+    "UserDto": {
+      "type": "object",
+      "required": [
+        "id",
+        "email",
+        "firstName",
+        "isActive",
+        "role",
+        "provinceId",
+        "reservations"
+      ],
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "email": {
+          "type": "string"
+        },
+        "firstName": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        },
+        "isActive": {
+          "type": "boolean"
+        },
+        "phone": {
+          "type": "string"
+        },
+        "role": {
+          "$ref": "#/definitions/UserRole"
+        },
+        "provinceId": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "province": {
+          "$ref": "#/definitions/ProvinceDto"
+        },
+        "reservations": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ReservationDto"
+          }
+        },
+        "businessId": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "business": {
+          "$ref": "#/definitions/BusinessShortDto"
+        }
+      }
+    },
+    "CreateUserCommand": {
+      "type": "object",
+      "required": [
+        "email",
+        "password",
+        "firstName",
+        "role",
+        "active",
+        "provinceId"
+      ],
+      "properties": {
+        "email": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "firstName": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        },
+        "phone": {
+          "type": "string"
+        },
+        "role": {
+          "$ref": "#/definitions/UserRole"
+        },
+        "active": {
+          "type": "boolean"
+        },
+        "provinceId": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "business": {
+          "$ref": "#/definitions/CreateBusinessDto"
+        }
+      }
+    },
+    "CreateBusinessDto": {
+      "type": "object",
+      "required": [
+        "name",
+        "address",
+        "keyword1",
+        "keyword2",
+        "keyword3",
+        "provinceId",
+        "isActive",
+        "simultaneousBookings",
+        "categoryIds"
+      ],
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "address": {
+          "type": "string"
+        },
+        "keyword1": {
+          "type": "string"
+        },
+        "keyword2": {
+          "type": "string"
+        },
+        "keyword3": {
+          "type": "string"
+        },
+        "provinceId": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "isActive": {
+          "type": "boolean"
+        },
+        "simultaneousBookings": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "categoryIds": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      }
+    },
+    "UpdateUserCommand": {
+      "type": "object",
+      "required": [
+        "id"
+      ],
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "firstName": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        },
+        "isActive": {
+          "type": "boolean"
+        },
+        "phone": {
+          "type": "string"
+        },
+        "provinceId": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    }
+  },
+  "securityDefinitions": {
+    "JWT": {
+      "type": "apiKey",
+      "description": "Introduce 'Bearer {token}'",
+      "name": "Authorization",
+      "in": "header"
+    }
+  },
+  "security": [
+    {
+      "JWT": []
+    }
+  ]
+}

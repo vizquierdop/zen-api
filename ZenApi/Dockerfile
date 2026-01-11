@@ -7,6 +7,7 @@ COPY src/ZenApi.API/*.csproj ./src/ZenApi.API/
 COPY src/ZenApi.Application/*.csproj ./src/ZenApi.Application/
 COPY src/ZenApi.Domain/*.csproj ./src/ZenApi.Domain/
 COPY src/ZenApi.Infrastructure/*.csproj ./src/ZenApi.Infrastructure/
+COPY tests/ZenApi.UnitTests/*.csproj ./tests/ZenApi.UnitTests/
 RUN dotnet restore
 
 COPY . .
